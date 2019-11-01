@@ -8,10 +8,18 @@ import {createAppContainer} from "react-navigation";
 
 
 const IntroductionStack = createStackNavigator({
-  Top: {
-    screen: TopScreen
-  }
-})
+    Top: {
+      screen: TopScreen
+    },
+    Login: {
+      screen: LoginScreen
+    }
+  },
+    {
+      initialRouteName: 'Login'
+    }
+
+)
 
 const IntroductionContainer = createAppContainer(IntroductionStack);
 
@@ -27,7 +35,7 @@ const styles = StyleSheet.create({
 export default class App extends React.Component {
   public render() {
     return (
-        <LoginScreen/>
+        <IntroductionContainer/>
     )
   }
 }

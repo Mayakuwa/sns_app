@@ -1,8 +1,12 @@
 import * as React from 'react';
-import {StyleSheet, View, Text, TextInput} from "react-native";
+import {StyleSheet, View, Text, Button, Alert} from "react-native";
 import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
+import {NavigationScreenProp} from "react-navigation";
 
+type Props = {
+    navigation: NavigationScreenProp<{}>
+}
 
 
 const styles = StyleSheet.create({
@@ -22,7 +26,13 @@ const styles = StyleSheet.create({
 
 })
 
-export default class LoginScreen extends React.Component {
+
+export default class LoginScreen extends React.Component <Props> {
+
+    public onhandlePress = () => {
+
+    }
+
     public render() {
         return(
             <View style={styles.container}>
@@ -35,6 +45,10 @@ export default class LoginScreen extends React.Component {
                     <CommonTextInput
                         style={styles.textInput}
                         password={true}
+                    />
+                    <Button
+                        title='ログインする'
+                        onPress={() => this.props.navigation.navigate('Top')}
                     />
                 </View>
             </View>
