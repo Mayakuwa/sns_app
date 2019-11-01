@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
 
 export default class LoginScreen extends React.Component <Props> {
 
-    public onhandlePress = () => {
+    public onHandlePress = () => {
 
+        this.props.navigation.navigate('Top')
     }
 
     public render() {
@@ -48,7 +49,7 @@ export default class LoginScreen extends React.Component <Props> {
                     />
                     <Button
                         title='ログインする'
-                        onPress={() => this.props.navigation.navigate('Top')}
+                        onPress={() => this.onHandlePress()}
                     />
                 </View>
             </View>
