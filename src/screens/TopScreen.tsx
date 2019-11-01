@@ -25,20 +25,7 @@ const hoge = createMaterialBottomTabNavigator(
             navigationOptions: {
                 tabBarLabel: "タイムライン",
                 tabBarColor: Color.navy,
-                tabBarIcon: ({tintColor}) => (
-                    <Icon
-                        size={25}
-                        name={'home'}
-                        style={{color: tintColor}}/>
-                )
-            }
-        },
-        Mypage: {
-            screen: MypageScreen,
-            navigationOptions: {
-                tabBarLabel: 'マイページ',
-                tabBarColor: Color.navy,
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor, focused}) => (
                     <Icon
                         size={25}
                         name={'home'}
@@ -49,16 +36,33 @@ const hoge = createMaterialBottomTabNavigator(
         Like: {
             screen: LikeScreen,
             navigationOptions: {
-                tabBarLabel: 'マイページ',
+                tabBarLabel: 'お気に入り',
                 tabBarColor: Color.navy,
-                tabBarIcon: ({tintColor}) => (
+                tabBarIcon: ({tintColor, focused}) => (
                     <Icon
                         size={25}
-                        name={'home'}
+                        name={'heart'}
                         style={{color: tintColor}}/>
                 )
             }
         },
+        Mypage: {
+            screen: MypageScreen,
+            navigationOptions: {
+                tabBarLabel: 'マイページ',
+                tabBarColor: Color.navy,
+                tabBarIcon: ({tintColor, focused}) => (
+                    <Icon
+                        size={25}
+                        name={'user'}
+                        style={{color: tintColor}}/>
+                )
+            }
+        },
+
+    },
+    {
+        shifting: true,
     }
 )
 
