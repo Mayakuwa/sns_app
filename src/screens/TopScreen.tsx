@@ -17,10 +17,10 @@ export default class TopScreen extends Component {
     //         activeColor: '#F44336',
     //     });
     // }
-    render() {
+    public render() {
         return(
             <View>
-               <Text>あh</Text>
+               <Text>あ</Text>
             </View>
         )
     }
