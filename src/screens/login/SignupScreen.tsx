@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, Button, Alert} from "react-native";
 import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
 import {NavigationScreenProp} from "react-navigation";
+import * as firebase from "firebase";
 
 type Props = {
     navigation: NavigationScreenProp<{}>
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 })
 
 
-export default class LoginScreen extends React.Component <Props, State> {
+export default class SignupScreen extends React.Component <Props, State> {
 
     public constructor(props) {
         super(props);
@@ -44,13 +45,21 @@ export default class LoginScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        this.props.navigation.navigate('Top')
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then((user) => {
+                this.props.navigation.navigate('Top')
+                console.log("succes");
+                console.log(user);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     public render() {
         return(
             <View style={styles.container}>
-                <Text>ログインする</Text>
+                <Text>登録する</Text>
                 <View>
                     <Text>メールアドレス</Text>
                     <CommonTextInput
@@ -64,7 +73,7 @@ export default class LoginScreen extends React.Component <Props, State> {
                         onChangeText={(text) => this.setState({password: text})}
                     />
                     <Button
-                        title='ログインする'
+                        title='登録する'
                         onPress={() => this.onHandlePress()}
                     />
                 </View>

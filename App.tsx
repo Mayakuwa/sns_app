@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Color from "./src/common/Color";
 import TopScreen from "./src/screens/TopScreen";
 import LoginScreen from "./src/screens/login/LoginScreen";
+import SignupScreen from "./src/screens/login/SignupScreen";
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from "react-navigation";
 import * as firebase from "firebase";
@@ -28,11 +29,13 @@ const IntroductionStack = createStackNavigator({
     },
     Login: {
       screen: LoginScreen
+    },
+    Signup: {
+        screen: SignupScreen
     }
   },
     {
-      initialRouteName: 'Login'
-    }
+      initialRouteName: 'Signup'}
 
 )
 
