@@ -5,9 +5,9 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from "react-navigation";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MypageScreen from "./MypageScreen";
-import TimelineScreen from "./TimelineScreen";
-import LikeScreen from "./LikeScreen";
+import MypageScreen from "./menu/MypageScreen";
+import TimelineScreen from "./menu/TimelineScreen";
+import LikeScreen from "./menu/LikeScreen";
 import Color from "../common/Color";
 
 const styles = StyleSheet.create({
@@ -17,6 +17,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
+
+/**
+ボトムメニューは、createMaterialBottomTabNavigatorを作って、そのあと
+ createAppContainerで読み込ませて、それをrenderさせている
+ **/
+
 
 const hoge = createMaterialBottomTabNavigator(
     {
