@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Color from "./src/common/Color";
 import TopScreen from "./src/screens/TopScreen";
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends Component {
+export default class App extends React.Component {
   public render() {
     return (
         <IntroductionContainer/>

@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import * as React from 'react';
 import {View, Text} from "react-native"
 
-export default class Timeline extends React.component {
+export default class TimelineScreen extends React.Component {
     public render() {
         return(
             <View>
