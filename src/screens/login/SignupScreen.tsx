@@ -52,6 +52,9 @@ export default class SignupScreen extends React.Component <Props, State> {
                 console.log(user);
             })
             .catch((error) => {
+                if(!this.state.email && !this.state.password) {
+                    alert("メールアドレスか、パスワードが違います。")
+                }
                 console.log(error);
             })
     }

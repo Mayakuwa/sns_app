@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {View, Text} from "react-native"
+import {View, Text, Button} from "react-native";
+
 
 
 export default class MypageScreen extends React.Component {
