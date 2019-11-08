@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {StyleSheet} from "react-native";
-import {View,Text} from "react-native";
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from "react-navigation";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";

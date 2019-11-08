@@ -35,7 +35,7 @@ const IntroductionStack = createStackNavigator({
     }
   },
     {
-      initialRouteName: 'Signup'}
+      initialRouteName: 'Top'}
 
 )
 
