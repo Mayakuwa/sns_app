@@ -9,6 +9,10 @@ import {createAppContainer} from "react-navigation";
 import * as firebase from "firebase";
 import ENV from "./env.json";
 
+
+
+require("firebase/firestore");
+
 const config = {
     apiKey: ENV.FIREBASE_API_KEY,
     authDomain: ENV.FIREBASE_AUTH_DOMAIN,
@@ -35,7 +39,7 @@ const IntroductionStack = createStackNavigator({
     }
   },
     {
-      initialRouteName: 'Top'}
+      initialRouteName: 'Login'}
 
 )
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Button, Alert} from "react-native";
 import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
-import {NavigationScreenProp} from "react-navigation";
+import {NavigationActions, NavigationScreenProp} from "react-navigation";
 import * as firebase from "firebase";
 
 type Props = {
@@ -45,15 +45,17 @@ export default class LoginScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        firebase.auth().signInAnonymously()
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
                 console.log("succes!");
                 console.log(user);
+                this.props.navigation.navigate('Signup', {
+                   user: user
+                })
             })
             .catch((error) => {
                 console.log(error);
             })
-        this.props.navigation.navigate('Top')
     }
 
     public render() {

@@ -79,6 +79,11 @@ export default class SignupScreen extends React.Component <Props, State> {
                         title='登録する'
                         onPress={() => this.onHandlePress()}
                     />
+
+                    <Button
+                        title='登録する'
+                        onPress={() => console.log(this.props.navigation.state.params.user)}
+                    />
                 </View>
             </View>
         )
