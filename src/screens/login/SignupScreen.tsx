@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Button, Alert} from "react-native";
 import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
-import {NavigationScreenProp} from "react-navigation";
+import {NavigationActions, NavigationScreenProp, StackActions} from "react-navigation";
 import * as firebase from "firebase";
 require("firebase/firestore");
 
@@ -54,7 +54,11 @@ export default class SignupScreen extends React.Component <Props, State> {
                         password: this.state.password
                     })
                     .then(() => {
-                        this.props.navigation.navigate('Top');
+                        const resetAction =　StackActions.reset({
+                            index: 0,
+                            actions: [NavigationActions.navigate({routeName: 'Top'})],
+                        })
+                        this.props.navigation.dispatch(resetAction);
                     })
                     .catch((error) => {
                         return error;
@@ -63,9 +67,6 @@ export default class SignupScreen extends React.Component <Props, State> {
                 console.log(user);
             })
             .catch((error) => {
-                if(!this.state.email && !this.state.password) {
-                    alert("メールアドレスか、パスワードが違います。")
-                }
                 console.log(error);
             })
     }

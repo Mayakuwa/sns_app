@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet, View, Text, Button, Alert} from "react-native";
 import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
-import {NavigationActions, NavigationScreenProp} from "react-navigation";
+import {NavigationActions, NavigationScreenProp, StackActions} from "react-navigation";
 import * as firebase from "firebase";
 
 type Props = {
@@ -49,9 +49,16 @@ export default class LoginScreen extends React.Component <Props, State> {
             .then((user) => {
                 console.log("succes!");
                 console.log(user);
-                this.props.navigation.navigate('Signup', {
-                   user: user
+                const resetAction =　StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({routeName: 'Top'})],
                 })
+                this.props.navigation.dispatch(resetAction);
+
+
+                // this.props.navigation.navigate('Top', {
+                //    user: user
+                // })
             })
             .catch((error) => {
                 console.log(error);
