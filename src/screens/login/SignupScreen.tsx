@@ -4,6 +4,7 @@ import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
 import {NavigationScreenProp} from "react-navigation";
 import * as firebase from "firebase";
+require("firebase/firestore");
 
 type Props = {
     navigation: NavigationScreenProp<{}>
@@ -47,7 +48,17 @@ export default class SignupScreen extends React.Component <Props, State> {
     public onHandlePress = () => {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
-                this.props.navigation.navigate('Top')
+                firebase.firestore().collection('users').doc(user.user.uid)
+                    .set({
+                        name: this.state.email,
+                        password: this.state.password
+                    })
+                    .then(() => {
+                        this.props.navigation.navigate('Top');
+                    })
+                    .catch((error) => {
+                        return error;
+                    })
                 console.log("succes");
                 console.log(user);
             })
@@ -78,11 +89,6 @@ export default class SignupScreen extends React.Component <Props, State> {
                     <Button
                         title='登録する'
                         onPress={() => this.onHandlePress()}
-                    />
-
-                    <Button
-                        title='登録する'
-                        onPress={() => console.log(this.props.navigation.state.params.user)}
                     />
                 </View>
             </View>
