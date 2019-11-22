@@ -46,7 +46,8 @@ export default class SignupScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        // firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        firebase.auth().signInAnonymously()
             .then((user) => {
                 firebase.firestore().collection('users').doc(user.user.uid)
                     .set({
@@ -54,6 +55,7 @@ export default class SignupScreen extends React.Component <Props, State> {
                         password: this.state.password
                     })
                     .then(() => {
+                        //　topに遷移後に、履歴を削除し、gobackボタンなくす
                         const resetAction =　StackActions.reset({
                             index: 0,
                             actions: [NavigationActions.navigate({routeName: 'Top'})],
