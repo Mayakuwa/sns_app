@@ -3,6 +3,7 @@ import {View, Text,TouchableHighlight, Button, StyleSheet} from "react-native"
 import PostTile from "../../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
+require('firebase/firestore');
 
 const style = StyleSheet.create({
 
@@ -12,24 +13,41 @@ type Props = {
     navigation: NavigationScreenProp<{}>;
 }
 
-export default class TimelineScreen extends React.Component <Props> {
+type State = {
+    postList: any
+}
+
+
+export default class TimelineScreen extends React.Component <Props, State> {
+
+    public constructor(props) {
+        super(props);
+        this.state = {
+           postList: []
+        }
+    }
+
+
+    componentWillMount () {
+        firebase.firestore().collection('posts')
+            .get().then(snapShot => {
+               let posts = []
+               snapShot.forEach((doc) => {
+                   posts.push(doc.data())
+               });
+               this.setState({postList: posts})
+                console.log(this.state.postList)
+            })
+            .catch((error) =>  {
+                return error;
+            })
+    }
 
     public handlePress = () => {
         this.props.navigation.navigate('Ask');
-        // console.log(this.props.navigation.getParam("title"));
-        // const db = firebase.firestore();
-        // const post = "SsSTj6AFQ6RcejgVHtpyMktiBzx2";
-        // db.collection(`posts/${post}/users`).add({
-        //     body: "test",
-        //     createdOn: "2019-2-2",
-        // })
-        // .then((ref) => {
-        //     console.log(ref)
-        // })
-        // .catch((error)  => {
-        //     console.log(error)
-        // })
     }
+
+
 
     public render() {
 
@@ -42,13 +60,18 @@ export default class TimelineScreen extends React.Component <Props> {
                             key={i}
                             content={`これはポスト${card_number[i]}`}
                         />
-                        {/*<Text>{this.props.navigation.state.params.user}</Text>*/}
                     </TouchableHighlight>
             )
         };
 
+        const hoge = this.state.postList.map((post) => {
+            return <Text>{post.content}</Text>
+        })
+
+
         return(
             <View>
+                {hoge}
                 {cards}
                 <Button
                     title="+"

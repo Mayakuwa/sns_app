@@ -119,6 +119,14 @@ export default class TopScreen extends React.Component {
             },
             Ask: {
                 screen: AskScreen,
+                navigationOptions: {
+                    // headerRight:
+                    //     <Button
+                    //         title="投稿する"
+                    //         style={{marginRight: 20}}
+                    //         onPress={() => console.log("hi")}
+                    //     />
+                }
             },
 
         }, {
