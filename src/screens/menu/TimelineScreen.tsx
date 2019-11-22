@@ -15,7 +15,8 @@ type Props = {
 export default class TimelineScreen extends React.Component <Props> {
 
     public handlePress = () => {
-        console.log(this.props.navigation.getParam("title"));
+        this.props.navigation.navigate('Ask');
+        // console.log(this.props.navigation.getParam("title"));
         // const db = firebase.firestore();
         // const post = "SsSTj6AFQ6RcejgVHtpyMktiBzx2";
         // db.collection(`posts/${post}/users`).add({

@@ -46,8 +46,7 @@ export default class SignupScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        // firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-        firebase.auth().signInAnonymously()
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
                 firebase.firestore().collection('users').doc(user.user.uid)
                     .set({

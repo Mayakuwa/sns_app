@@ -29,7 +29,11 @@ firebase.initializeApp(config);
 
 const IntroductionStack = createStackNavigator({
     Top: {
-      screen: TopScreen
+      screen: TopScreen,
+        navigationOptions: {
+          //ヘッダーが被ってしまい変な挙動になるので非表示
+          header: null
+        }
     },
     Login: {
       screen: LoginScreen
@@ -39,7 +43,7 @@ const IntroductionStack = createStackNavigator({
     }
   },
     {
-      initialRouteName: 'Signup'}
+      initialRouteName: 'Top'}
 
 )
 
