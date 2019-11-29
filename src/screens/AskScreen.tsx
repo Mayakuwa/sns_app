@@ -40,7 +40,9 @@ export default class AskScreen extends React.Component <Props, State> {
     })
             .then(() => {
                 console.log('succes!')
-                this.props.navigation.navigate('TimeLine')
+                console.log( this.props.navigation.state.params.refresh());
+                this.props.navigation.state.params.refresh();
+                this.props.navigation.goBack()
             })
             .catch((error) => {
                 console.log('error')

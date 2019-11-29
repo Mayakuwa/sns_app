@@ -6,6 +6,7 @@ import {Component} from "react";
 
 type Props = {
     content?: null | string
+    time: string
 }
 
 export default class PostTile extends Component <Props> {
@@ -13,6 +14,7 @@ export default class PostTile extends Component <Props> {
         return(
            <Card>
                <Text>{this.props.content}</Text>
+               <Text>{this.props.time}</Text>
            </Card>
         )
     }
