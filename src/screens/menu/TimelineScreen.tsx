@@ -3,7 +3,6 @@ import {View, Text,TouchableHighlight, Button, StyleSheet} from "react-native"
 import PostTile from "../../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
-import index from "react-native-paper/lib/typescript/example/src";
 require('firebase/firestore');
 
 const style = StyleSheet.create({
@@ -16,8 +15,7 @@ type Props = {
 
 type State = {
     //ここも直す、配列で入れられるようにする
-    postList: any
-    isRefresh: boolean
+    postList: []
 
 
 }
@@ -29,14 +27,16 @@ export default class TimelineScreen extends React.Component <Props, State> {
         super(props);
         this.state = {
            postList: [],
-            isRefresh: false
         }
     }
 
 
+    //これを変えて、fetchpostなど入れる
     componentDidMount () {
-        if (this.state.isRefresh) return;
-        console.log('DidMount')
+        this.props.navigation.setParams({
+            goToAskScreen: this.goToAskScreen.bind(this)
+        })
+        console.log('DidMount');
         firebase.firestore().collection('posts')
             .get().then(snapShot => {
                let posts = []
@@ -50,14 +50,10 @@ export default class TimelineScreen extends React.Component <Props, State> {
             })
     }
 
-    public AddPress = () => {
+    public goToAskScreen = () => {
         this.props.navigation.navigate('Ask' ,{
-            refresh: this.onRefresh.bind(this)
+            refresh: this.componentDidMount.bind(this)
         });
-    }
-
-    private onRefresh = () => {
-        this.setState({isRefresh: true})
     }
 
 
@@ -76,7 +72,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                 {hoge}
                 <Button
                     title="+"
-                    onPress={() => this.AddPress()}/>
+                    onPress={() =>this.props.navigation.state.params.goToAskScreen()}/>
             </View>
         )
     }
