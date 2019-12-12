@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {View, Text, Button} from "react-native";
+import {View, Text} from "react-native";
+import CommonButton from "../../components/parts/common/CommonButton";
 
 
 
@@ -8,6 +9,7 @@ export default class MypageScreen extends React.Component {
         return(
             <View>
                 <Text>マイページ</Text>
+               <CommonButton/>
             </View>
         )
     }
