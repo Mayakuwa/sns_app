@@ -16,8 +16,6 @@ type Props = {
 type State = {
     //ここも直す、配列で入れられるようにする
     postList: []
-
-
 }
 
 
@@ -31,23 +29,38 @@ export default class TimelineScreen extends React.Component <Props, State> {
     }
 
 
-    //これを変えて、fetchpostなど入れる
     componentDidMount () {
         this.props.navigation.setParams({
             goToAskScreen: this.goToAskScreen.bind(this)
         })
-        console.log('DidMount');
+
+        // firebase.firestore().collection('posts')
+        //     .get().then(snapShot => {
+        //        let posts = []
+        //        snapShot.forEach((doc) => {
+        //            posts.push(doc.data())
+        //        });
+        //        this.setState({postList: posts})
+        //     })
+        //     .catch((error) =>  {
+        //         return error;
+        //     })
+
         firebase.firestore().collection('posts')
-            .get().then(snapShot => {
-               let posts = []
-               snapShot.forEach((doc) => {
-                   posts.push(doc.data())
-               });
-               this.setState({postList: posts})
-            })
+            .orderBy('createdAt', "desc")
+            .get()
+            .then(snapShot => {
+            let posts = []
+            snapShot.forEach((doc) => {
+                posts.push(doc.data())
+            });
+            this.setState({postList: posts})
+        })
             .catch((error) =>  {
                 return error;
             })
+
+
     }
 
     public goToAskScreen = () => {

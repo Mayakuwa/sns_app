@@ -40,7 +40,8 @@ export default class AskScreen extends React.Component <Props, State> {
     })
             .then(() => {
                 console.log('succes!')
-                console.log( this.props.navigation.state.params.refresh());
+                console.log(this.props.navigation.state.params.refresh());
+                // 好きな場所でこれを呼び出すと親画面の更新が行われる。
                 this.props.navigation.state.params.refresh();
                 this.props.navigation.goBack()
             })
