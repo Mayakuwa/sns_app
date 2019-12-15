@@ -32,7 +32,7 @@ export default class MypageScreen extends React.Component <Props, State> {
 
     public componentDidMount() {
         this.props.navigation.setParams({
-            goToProfileScreen: this.goToProfileScreen(this)
+            goToProfileScreen: this.goToProfileScreen.bind(this)
         })
     }
 

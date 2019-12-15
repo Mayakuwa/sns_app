@@ -131,6 +131,14 @@ export default class TopScreen extends React.Component {
             },
            ProfileEdit: {
                 screen: ProfileEditScreen,
+               navigationOptions: {
+                   // headerRight:
+                   //     <Button
+                   //         title="投稿する"
+                   //         style={{marginRight: 20}}
+                   //         onPress={() => console.log("hi")}
+                   //     />
+               }
 
            }
         }, {
