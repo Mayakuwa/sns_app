@@ -29,7 +29,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
     }
 
 
-    componentDidMount () {
+     public componentDidMount () {
         this.props.navigation.setParams({
             goToAskScreen: this.goToAskScreen.bind(this)
         })

@@ -30,6 +30,14 @@ export default class MypageScreen extends React.Component <Props, State> {
     }
 
 
+    public componentDidMount() {
+        this.props.navigation.setParams({
+            goToProfileScreen: this.goToProfileScreen(this)
+        })
+    }
+
+
+
     //画像追加ボタンが押された
     private uploadImage = () => {
         ImageSelecter.execute()
@@ -38,15 +46,22 @@ export default class MypageScreen extends React.Component <Props, State> {
                 this.setState({
                     localImage: result as ImageInfo
                 });
-                this.props.navigation.state.params.localImage = this.state.localImage
+                // this.props.navigation.state.params.localImage = this.state.localImage
             });
+    }
+
+    public goToProfileScreen = () => {
+        this.props.navigation.navigate('ProfileEdit', {
+            refresh: this.componentDidMount.bind(this)
+        })
     }
 
     public render() {
         return(
             <View>
                 <Text>写真をアップロード</Text>
-               <CommonButton onPress={this.uploadImage}/>
+               <CommonButton title="写真追加"　onPress={this.uploadImage}/>
+                <CommonButton title="プロフィール編集"　onPress={() => this.props.navigation.state.params.goToProfileScreen()}/>
                 {this.state.localImage ?
                     <Image source={{uri: this.state.localImage.uri}} style={style.imageStyle}/>
                     : null

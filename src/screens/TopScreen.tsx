@@ -6,6 +6,7 @@ import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom
 import Icon from 'react-native-vector-icons/FontAwesome';
 import MypageScreen from "./menu/MypageScreen";
 import TimelineScreen from "./menu/TimelineScreen";
+import ProfileEditScreen from "./menu/ProfileEditScreen";
 import AskScreen from "./AskScreen";
 import LikeScreen from "./menu/LikeScreen";
 import Color from "../common/Color";
@@ -72,7 +73,6 @@ export default class TopScreen extends React.Component {
                         )
                     }
                 },
-
             },
             {
                 shifting: true,
@@ -103,6 +103,7 @@ export default class TopScreen extends React.Component {
                             borderBottomWidth: 0,
                         }
                     };
+
             }
             return {headerTitle: ""};
         }
@@ -128,7 +129,10 @@ export default class TopScreen extends React.Component {
                     //     />
                 }
             },
+           ProfileEdit: {
+                screen: ProfileEditScreen,
 
+           }
         }, {
            initialRouteName: 'Main'
            }

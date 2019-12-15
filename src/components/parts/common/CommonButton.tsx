@@ -2,6 +2,7 @@ import * as React from 'react';
 import {StyleSheet,Button, View} from "react-native";
 
 type Props = {
+    title: string
     onPress:() => void;
 }
 
@@ -13,7 +14,7 @@ export default class CommonButton extends React.Component<Props> {
     public render() {
         return(
             <View>
-                <Button title='写真を追加' onPress={this.props.onPress}/>
+                <Button title={this.props.title} onPress={this.props.onPress}/>
             </View>
         )
     }
