@@ -1,14 +1,14 @@
 import * as React from 'react';
 import {View, Text, Image,TouchableHighlight, Button, StyleSheet, TextInput} from "react-native"
-import PostTile from "../../components/parts/common/PostTile";
-import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 import Color from "../../common/Color";
 import {ImageSelecter} from "../../common/image/ImageSelecter";
 import CommonButton from "../../components/parts/common/CommonButton";
 import {ImageInfo} from "expo-image-picker/build/ImagePicker.types";
 import {url} from "inspector";
+import * as firebase from "firebase"
 require('firebase/firestore');
+
 
 
 const style = StyleSheet.create({
@@ -60,7 +60,10 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
     //         })
     // }
 
-    public addPhotoPress = () => {
+    /**
+     * 写真追加ボタンが押された
+     */
+    private addPhotoPress = () => {
         ImageSelecter.execute()
             .then(result => {
                 if (result.cancelled) return;
@@ -68,6 +71,26 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                     localImage: result as ImageInfo
                 })
             })
+    }
+
+    /**
+     * 保存ボタンが押された
+     */
+    private handlePress = () => {
+        const storage = firebase.storage().ref();
+        const ref = storage.child(this.state.localImage.uri);
+        const blob = new Blob([this.state.localImage.uri]);
+
+        console.warn(blob)
+
+        ref.put(blob)
+            .then(response=>
+                console.warn(response)
+            )
+            .catch(error => {
+                console.warn(error);
+            })
+
     }
 
     public render() {
@@ -83,6 +106,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                     <Image source={{uri: this.state.localImage.uri}} style={style.imageStyle}/>
                     : null
                 }
+                <Button title="保存" onPress={this.handlePress}/>
             </View>
         )
     }

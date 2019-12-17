@@ -32,7 +32,7 @@ export default class AskScreen extends React.Component <Props, State> {
     }
 
 
-    public handleSubmit = () => {
+    private handleSubmit = () => {
         const db = firebase.firestore()
         db.collection('posts').add({
             content: this.state.postContent,
