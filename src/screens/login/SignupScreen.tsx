@@ -6,6 +6,7 @@ import {NavigationActions, NavigationScreenProp, StackActions} from "react-navig
 import * as firebase from "firebase";
 require("firebase/firestore");
 
+
 type Props = {
     navigation: NavigationScreenProp<{}>
 }

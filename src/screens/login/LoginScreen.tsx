@@ -50,6 +50,7 @@ export default class LoginScreen extends React.Component <Props, State> {
             .then((user) => {
                 console.log("succes!");
                 console.log(user);
+                //　topに遷移後に、履歴を削除し、gobackボタンなくす
                 const resetAction =　StackActions.reset({
                     index: 0,
                     actions: [NavigationActions.navigate({routeName: 'Top'})],

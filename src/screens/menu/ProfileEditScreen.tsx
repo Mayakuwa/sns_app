@@ -78,6 +78,9 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
      */
 
     private handlePress = () => {
+        const db = firebase.firestore();
+        db.collection('users')
+
         const storage = firebase.storage().ref();
         const ref = storage.child(this.state.localImage.uri);
         const blob = new Blob([this.state.localImage.uri]);
