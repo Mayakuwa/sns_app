@@ -5,9 +5,9 @@ import Color from "../../common/Color";
 import {ImageSelecter} from "../../common/image/ImageSelecter";
 import CommonButton from "../../components/parts/common/CommonButton";
 import {ImageInfo} from "expo-image-picker/build/ImagePicker.types";
-import {url} from "inspector";
 import * as firebase from "firebase"
 require('firebase/firestore');
+import Firebase from "../../api/Firebase";
 
 
 
@@ -76,6 +76,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
     /**
      * 保存ボタンが押された
      */
+
     private handlePress = () => {
         const storage = firebase.storage().ref();
         const ref = storage.child(this.state.localImage.uri);
@@ -92,6 +93,23 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
             })
 
     }
+
+    // private handlePress = () => {
+    //     const storage = firebase.storage().ref();
+    //     const ref = storage.child(this.state.localImage.uri);
+    //     const blob = new Blob([this.state.localImage.uri]);
+    //
+    //     console.warn(blob)
+    //
+    //     ref.put(blob)
+    //         .then(response=>
+    //             console.warn(response)
+    //         )
+    //         .catch(error => {
+    //             console.warn(error);
+    //         })
+    //
+    // }
 
     public render() {
 
