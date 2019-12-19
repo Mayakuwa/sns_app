@@ -4,6 +4,8 @@ import Color from "../../common/Color";
 import CommonTextInput from "../../components/parts/common/CommonTextInput";
 import {NavigationActions, NavigationScreenProp, StackActions} from "react-navigation";
 import * as firebase from "firebase";
+import Firebase from "../../api/Firebase";
+import Storage from "../../api/Storage";
 require("firebase/firestore");
 
 
@@ -47,26 +49,34 @@ export default class SignupScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        Firebase.createAnonimousUser()
             .then((user) => {
-                firebase.firestore().collection('users').doc(user.user.uid)
+                const promise = firebase.firestore().collection('users').doc(user.user.uid)
                     .set({
                         name: this.state.email,
                         password: this.state.password
                     })
                     .then(() => {
-                        //　topに遷移後に、履歴を削除し、gobackボタンなくす
-                        const resetAction =　StackActions.reset({
-                            index: 0,
-                            actions: [NavigationActions.navigate({routeName: 'Top'})],
-                        })
-                        this.props.navigation.dispatch(resetAction);
+                        return user.user.uid
                     })
                     .catch((error) => {
                         return error;
-                    })
-                console.log("succes");
-                console.log(user);
+                    });
+                return Promise.resolve(promise)
+            })
+            .then((userId: string) => {
+                const storage = new Storage();
+                storage.save(Storage.KEY_USER_ID, userId)
+                console.log(userId)
+                return true;
+            })
+            .then(() => {
+                //　topに遷移後に、履歴を削除し、gobackボタンなくす
+                const resetAction =　StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({routeName: 'Top'})],
+                })
+                this.props.navigation.dispatch(resetAction);
             })
             .catch((error) => {
                 console.log(error);

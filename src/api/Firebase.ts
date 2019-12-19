@@ -26,4 +26,8 @@ export default class Firebase {
         return firebase.storage().ref().child('images/' + filename).getDownloadURL();
     }
 
+    public static createAnonimousUser() {
+        return firebase.auth().signInAnonymously()
+    }
+
 }

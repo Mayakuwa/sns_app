@@ -39,14 +39,14 @@ export default class LoginScreen extends React.Component <Props, State> {
         super(props);
         //めんどくさいので、stateでデータ直張り
         this.state = {
-            email: "maya@gmail.com",
-            password: "mayamaya"
+            email: "",
+            password: ""
         }
     }
 
 
     public onHandlePress = () => {
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+        firebase.auth().signInAnonymously()
             .then((user) => {
                 console.log("succes!");
                 console.log(user);
