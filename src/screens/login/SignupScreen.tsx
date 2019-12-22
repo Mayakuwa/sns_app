@@ -67,7 +67,6 @@ export default class SignupScreen extends React.Component <Props, State> {
             .then((userId: string) => {
                 const storage = new Storage();
                 storage.save(Storage.KEY_USER_ID, userId)
-                console.log(userId)
                 return true;
             })
             .then(() => {

@@ -6,13 +6,14 @@ require('firebase/firestore');
 export default class Firebase {
 
     //アクセス修飾子(publicなど) static 型名 変数名
+    //これを使うとインスタンスを作成しなくてもアクセスできる
     private static instance: Firebase;
 
     // private name: string;みたいな要領でかく
     private db: firebase.firestore.Firestore | null;
 
     private constructor() {
-       this.db = firebase.firestore()
+       this.db = firebase.firestore();
     }
 
     public static getInstance() {
@@ -20,6 +21,10 @@ export default class Firebase {
             this.instance = new Firebase();
         }
         return this.instance
+    }
+
+    public load(table: string) {
+        return this.db.collection(table);
     }
 
     public static saveImage(filename: string, blob: Blob | Uint8Array | ArrayBuffer) {
