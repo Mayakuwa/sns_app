@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {View, Text, Image,TouchableHighlight, Button, StyleSheet, TextInput} from "react-native"
 import { NavigationScreenProp} from "react-navigation"
+import User from "../../common/model/user/User";
 import Color from "../../common/Color";
 import {ImageSelecter} from "../../common/image/ImageSelecter";
 import CommonButton from "../../components/parts/common/CommonButton";
@@ -8,6 +9,7 @@ import {ImageInfo} from "expo-image-picker/build/ImagePicker.types";
 import * as firebase from "firebase"
 require('firebase/firestore');
 import Firebase from "../../api/Firebase";
+import CreateUserProfileApiFactory from "../../api/user/CreateUserProfileApi";
 
 
 
@@ -27,7 +29,9 @@ type Props = {
 
 type State = {
     postContent: string,
-    localImage: ImageInfo | null
+    image: ImageInfo | null
+    authId: string
+    name: string
 }
 
 
@@ -35,9 +39,12 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
 
     public constructor(props) {
         super(props);
+        const user: User = this.props.navigation.state.params.user.authId
         this.state = {
             postContent: "",
-            localImage: null
+            image: null,
+            authId: user.authId,
+            name: user.name
 
         }
     }
@@ -69,9 +76,12 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
             .then(result => {
                 if (result.cancelled) return;
                 this.setState({
-                    localImage: result as ImageInfo
+                    image: result as ImageInfo
                 })
-                // this.uploadImage(this.state.localImage);
+                this.uploadImage(this.state.image, this.state.authId)
+            })
+            .then(() => {
+                this.loadImage();
             })
     }
 
@@ -79,34 +89,35 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
      * 画像をアップロードする
      */
 
-    // private uploadImage = async (imageInfo) => {
-    //
-    // }
+    private uploadImage = async (imageInfo, userId) => {
+        const response = await fetch(imageInfo)
+        const blob = response.blob()
+        const ref = firebase.storage().ref().child('images/' + userId)
+        return ref.put(blob);
+    }
 
+    private loadImage =　() => {
+        const ref = firebase.storage().ref().child('images/' + this.state.authId);
+        ref.getDownloadURL()
+            .then(data => {
+                this.setState({image: data})
+            })
+    }
 
     /**
      * 保存ボタンが押された
      */
 
     private handlePress = () => {
-
-        const db = firebase.firestore();
-        db.collection('users')
-
-        const storage = firebase.storage().ref();
-        const ref = storage.child(this.state.localImage.uri);
-        const blob = new Blob([this.state.localImage.uri]);
-
-        console.warn(blob)
-
-        ref.put(blob)
-            .then(response=>
-                console.warn(response)
-            )
-            .catch(error => {
-                console.warn(error);
+       const {name, image} = this.state;
+        CreateUserProfileApiFactory.create().execute(name, image)
+            .then(() => {
+                this.props.navigation.state.params.refresh()
+                return true
             })
-
+            .catch((error) => {
+                console.warn(error)
+            })
     }
 
     // private handlePress = () => {
@@ -135,8 +146,8 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                     title="写真追加"
                     onPress={() => this.addPhotoPress()}
                 />
-                {this.state.localImage ?
-                    <Image source={{uri: this.state.localImage.uri}} style={style.imageStyle}/>
+                {this.state.image ?
+                    <Image source={{uri: this.state.image.uri}} style={style.imageStyle}/>
                     : null
                 }
                 <Button title="保存" onPress={this.handlePress}/>
