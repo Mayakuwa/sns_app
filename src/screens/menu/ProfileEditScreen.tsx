@@ -38,6 +38,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
         this.state = {
             postContent: "",
             localImage: null
+
         }
     }
 
@@ -70,14 +71,25 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                 this.setState({
                     localImage: result as ImageInfo
                 })
+                // this.uploadImage(this.state.localImage);
             })
     }
+
+    /**
+     * 画像をアップロードする
+     */
+
+    // private uploadImage = async (imageInfo) => {
+    //
+    // }
+
 
     /**
      * 保存ボタンが押された
      */
 
     private handlePress = () => {
+
         const db = firebase.firestore();
         db.collection('users')
 

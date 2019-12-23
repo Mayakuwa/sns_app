@@ -51,7 +51,8 @@ export default class MypageScreen extends React.Component <Props, State> {
 
     private goToProfileScreen = () => {
         this.props.navigation.navigate('ProfileEdit', {
-            refresh: this.componentDidMount.bind(this)
+            refresh: this.componentDidMount.bind(this),
+            user: this.state.user
         })
     }
 
