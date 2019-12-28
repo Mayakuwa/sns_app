@@ -5,7 +5,8 @@ export default class UserFactory {
         return new User(
             data.authId || id,
             data.name,
-            data.password
+            data.password,
+            data.image,
         )
     }
 }

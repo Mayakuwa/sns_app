@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, Image,TouchableHighlight, Button, StyleSheet, TextInput} from "react-native"
+import {View, Text, Image,TouchableHighlight, Button, StyleSheet, TextInput,  Alert} from "react-native"
 import { NavigationScreenProp} from "react-navigation"
 import User from "../../common/model/user/User";
 import Color from "../../common/Color";
@@ -8,6 +8,8 @@ import CommonButton from "../../components/parts/common/CommonButton";
 import {ImageInfo} from "expo-image-picker/build/ImagePicker.types";
 import * as firebase from "firebase"
 require('firebase/firestore');
+import * as Permissions from 'expo-permissions';
+import * as ImagePicker from 'expo-image-picker';
 import Firebase from "../../api/Firebase";
 import CreateUserProfileApiFactory from "../../api/user/CreateUserProfileApi";
 
@@ -32,6 +34,8 @@ type State = {
     image: ImageInfo | null
     authId: string
     name: string
+    isAccepted: boolean,
+    isVisible: boolean
 }
 
 
@@ -39,12 +43,14 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
 
     public constructor(props) {
         super(props);
-        const user: User = this.props.navigation.state.params.user.authId
+        const user: User = this.props.navigation.state.params.user
         this.state = {
             postContent: "",
             image: null,
             authId: user.authId,
-            name: user.name
+            name: user.name,
+            isAccepted: true,
+            isVisible: false
 
         }
     }
@@ -71,27 +77,41 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
     /**
      * 写真追加ボタンが押された
      */
-    private addPhotoPress = () => {
-        ImageSelecter.execute()
-            .then(result => {
-                if (result.cancelled) return;
-                this.setState({
-                    image: result as ImageInfo
-                })
-                this.uploadImage(this.state.image, this.state.authId)
-            })
-            .then(() => {
-                this.loadImage();
-            })
+    private addPhotoPress = async () => {
+        const permission = await Permissions.getAsync(Permissions.CAMERA_ROLL);
+        if (permission.status !== 'granted') {
+            const newPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (newPermission.status !== 'granted') {
+                this.setState({isAccepted: false});
+            }
+        }
+        if (this.state.isAccepted) {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [9, 9]
+            });
+            console.warn(this.state.authId)
+            if (!result.cancelled) {
+                this.setState({isVisible: true});
+                this.uploadImage(result.uri, this.state.authId)
+                    .then(() => {
+                        this.loadImage();
+                    })
+                    .catch((error) => {
+                        Alert.alert(error);
+                        console.log(error);
+                    });
+            }
+        }
     }
 
     /**
      * 画像をアップロードする
      */
 
-    private uploadImage = async (imageInfo, userId) => {
-        const response = await fetch(imageInfo)
-        const blob = response.blob()
+    private uploadImage = async (uri, userId) => {
+        const response = await fetch(uri)
+        const blob = await response.blob();
         const ref = firebase.storage().ref().child('images/' + userId)
         return ref.put(blob);
     }
@@ -101,6 +121,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
         ref.getDownloadURL()
             .then(data => {
                 this.setState({image: data})
+                this.setState({isVisible: false});
             })
     }
 
@@ -112,6 +133,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
        const {name, image} = this.state;
         CreateUserProfileApiFactory.create().execute(name, image)
             .then(() => {
+                this.props.navigation.goBack();
                 this.props.navigation.state.params.refresh()
                 return true
             })
@@ -147,7 +169,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                     onPress={() => this.addPhotoPress()}
                 />
                 {this.state.image ?
-                    <Image source={{uri: this.state.image.uri}} style={style.imageStyle}/>
+                    <Image source={{uri: this.state.image}} style={style.imageStyle}/>
                     : null
                 }
                 <Button title="保存" onPress={this.handlePress}/>

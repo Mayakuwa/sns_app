@@ -17,6 +17,16 @@ interface State  {
     user: User,
 }
 
+const style = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    imageStyle: {
+        width: 100,
+        height: 100
+    }
+})
+
 export default class MypageScreen extends React.Component <Props, State> {
 
    public constructor(props, state) {
@@ -44,7 +54,6 @@ export default class MypageScreen extends React.Component <Props, State> {
                GetUserProfileApiFactory.create().execute(id)
                     .then(user => {
                         this.setState({user: user})
-                        console.warn(this.state.user)
                     })
             })
     }
@@ -62,6 +71,7 @@ export default class MypageScreen extends React.Component <Props, State> {
                 <Text>写真をアップロード</Text>
                 <Text>{this.state.user.name}</Text>
                 <Text>{this.state.user.password}</Text>
+                <Image source={{uri: this.state.user.image}}  style={style.imageStyle}/>
                 <CommonButton title="プロフィール編集"　onPress={() => this.props.navigation.state.params.goToProfileScreen()}/>
             </View>
         )
