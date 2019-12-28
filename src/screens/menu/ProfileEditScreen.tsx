@@ -2,15 +2,12 @@ import * as React from 'react';
 import {View, Text, Image,TouchableHighlight, Button, StyleSheet, TextInput,  Alert} from "react-native"
 import { NavigationScreenProp} from "react-navigation"
 import User from "../../common/model/user/User";
-import Color from "../../common/Color";
-import {ImageSelecter} from "../../common/image/ImageSelecter";
 import CommonButton from "../../components/parts/common/CommonButton";
 import {ImageInfo} from "expo-image-picker/build/ImagePicker.types";
 import * as firebase from "firebase"
 require('firebase/firestore');
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
-import Firebase from "../../api/Firebase";
 import CreateUserProfileApiFactory from "../../api/user/CreateUserProfileApi";
 
 

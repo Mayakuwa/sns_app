@@ -33,21 +33,26 @@ export default class AskScreen extends React.Component <Props, State> {
 
 
     private handleSubmit = () => {
-        const db = firebase.firestore()
-        db.collection('posts').add({
-            content: this.state.postContent,
-            createdAt: new Date().toLocaleString("ja")
-    })
-            .then(() => {
-                console.log('succes!')
-                console.log(this.props.navigation.state.params.refresh());
-                // 好きな場所でこれを呼び出すと親画面の更新が行われる。
-                this.props.navigation.state.params.refresh();
-                this.props.navigation.goBack()
+        if (this.state.postContent === "" )  {
+            alert('コンテンツがありません');
+
+        } else {
+            const db = firebase.firestore()
+            db.collection('posts').add({
+                content: this.state.postContent,
+                createdAt: new Date().toLocaleString("ja")
             })
-            .catch((error) => {
-                console.log('error')
-            })
+                .then(() => {
+                    console.log('succes!')
+                    console.log(this.props.navigation.state.params.refresh());
+                    // 好きな場所でこれを呼び出すと親画面の更新が行われる。
+                    this.props.navigation.state.params.refresh();
+                    this.props.navigation.goBack()
+                })
+                .catch((error) => {
+                    console.log('error')
+                })
+        }
     }
 
 
