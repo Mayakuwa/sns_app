@@ -1,12 +1,30 @@
 import * as React from 'react';
-import {View, Text,TouchableHighlight, Button, StyleSheet} from "react-native"
+import {View, Text,TouchableHighlight, StyleSheet} from "react-native"
 import PostTile from "../../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
+import Color from "../../common/Color"
 
 const style = StyleSheet.create({
-
+    container: {
+        flex: 1,
+    },
+    buttonPosition: {
+        alignItems: 'center',
+        marginTop: 20
+    },
+    button: {
+        width: 20,
+        height: 20,
+        backgroundColor: Color.navy,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    text: {
+        color: Color.white
+    }
 })
 
 type Props = {
@@ -81,11 +99,15 @@ export default class TimelineScreen extends React.Component <Props, State> {
         })
 
         return(
-            <View>
+            <View style={style.container}>
                 {hoge}
-                <Button
-                    title="+"
-                    onPress={() =>this.props.navigation.state.params.goToAskScreen()}/>
+                <View style={style.buttonPosition}>
+                    <TouchableHighlight
+                        style={style.button}
+                        onPress={() =>this.props.navigation.state.params.goToAskScreen()}>
+                        <Text style={style.text}>+</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
     }
