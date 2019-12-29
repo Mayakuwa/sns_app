@@ -2,6 +2,7 @@ import * as React from "react";
 import {Card} from "react-native-elements";
 import {StyleSheet, Text} from "react-native";
 import {Component} from "react";
+import LikeButton from "./LikeButton";
 
 
 type Props = {
@@ -15,6 +16,7 @@ export default class PostTile extends Component <Props> {
            <Card>
                <Text>{this.props.content}</Text>
                <Text>{this.props.time}</Text>
+               <LikeButton/>
            </Card>
         )
     }

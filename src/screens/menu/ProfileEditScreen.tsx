@@ -8,7 +8,9 @@ import * as firebase from "firebase"
 require('firebase/firestore');
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import * as Camera from "expo-camera";
 import CreateUserProfileApiFactory from "../../api/user/CreateUserProfileApi";
+
 
 
 
@@ -87,7 +89,34 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                 allowsEditing: true,
                 aspect: [9, 9]
             });
-            console.warn(this.state.authId)
+            if (!result.cancelled) {
+                this.setState({isVisible: true});
+                this.uploadImage(result.uri, this.state.authId)
+                    .then(() => {
+                        this.loadImage();
+                    })
+                    .catch((error) => {
+                        Alert.alert(error);
+                        console.log(error);
+                    });
+            }
+        }
+    }
+
+    private addPhotoPressByCamera = async () => {
+        const permission = await Permissions.getAsync(Permissions.CAMERA)
+        if (permission.status !== 'granted') {
+            const newPermission = await Permissions.askAsync(Permissions.CAMERA);
+            if (newPermission.status !== 'granted') {
+                this.setState({isAccepted: false});
+            }
+        }
+
+        if (this.state.isAccepted) {
+            const result = await ImagePicker.launchCameraAsync({
+                allowsEditing: true,
+                aspect: [9, 9]
+            })
             if (!result.cancelled) {
                 this.setState({isVisible: true});
                 this.uploadImage(result.uri, this.state.authId)
@@ -162,8 +191,13 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
             <View style={style.container}>
                 <Text>画像をアップしましょう！！</Text>
                 <CommonButton
-                    title="写真追加"
+                    title="カメラロールから"
                     onPress={() => this.addPhotoPress()}
+                />
+
+                <CommonButton
+                    title="写真をとる"
+                    onPress={() => this.addPhotoPressByCamera()}
                 />
                 {this.state.image ?
                     <Image source={{uri: this.state.image}} style={style.imageStyle}/>

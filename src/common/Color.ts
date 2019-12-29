@@ -4,4 +4,5 @@ export default class Color {
     public static black = "#000000";
     public static royalblue = "#4169e1";
     public static navy = "#000080";
+    public static pink = "#EF4868";
 }
