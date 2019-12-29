@@ -30,11 +30,11 @@ const style = StyleSheet.create({
 export default class MypageScreen extends React.Component <Props, State> {
 
    public constructor(props, state) {
-       super(props, state);
-       this.state = {
-           // 本当はnullにしたい
-           user: User
-       }
+           super(props, state);
+           this.state = {
+               // 本当はnullにしたい
+               user: User
+           }
 
    }
 
