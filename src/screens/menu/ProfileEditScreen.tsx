@@ -103,6 +103,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
         }
     }
 
+    //　動作確認する
     private addPhotoPressByCamera = async () => {
         const permission = await Permissions.getAsync(Permissions.CAMERA)
         if (permission.status !== 'granted') {

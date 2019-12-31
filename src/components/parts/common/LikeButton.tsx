@@ -1,11 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
-import {StyleSheet,Button, View} from "react-native";
+import {View} from "react-native";
 import Color from "../../../common/Color"
 
-// type Props = {
-//     like: boolean
-// }
 
 type Props = {
     isLiked: boolean

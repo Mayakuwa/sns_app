@@ -4,7 +4,8 @@ import PostTile from "../../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
-import Color from "../../common/Color"
+import Color from "../../common/Color";
+import DeletePostApiFactory from "../../api/post/DeletePostApi"
 
 const style = StyleSheet.create({
     container: {
@@ -51,18 +52,6 @@ export default class TimelineScreen extends React.Component <Props, State> {
         this.props.navigation.setParams({
             goToAskScreen: this.goToAskScreen.bind(this)
         })
-
-        // firebase.firestore().collection('posts')
-        //     .get().then(snapShot => {
-        //        let posts = []
-        //        snapShot.forEach((doc) => {
-        //            posts.push(doc.data())
-        //        });
-        //        this.setState({postList: posts})
-        //     })
-        //     .catch((error) =>  {
-        //         return error;
-        //     })
 
         firebase.firestore().collection('posts')
             .orderBy('createdAt', "desc")

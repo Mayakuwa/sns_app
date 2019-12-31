@@ -1,6 +1,5 @@
 import Firebase from "../../api/Firebase"
 import Storage from "../../api/Storage";
-import {userInfo} from "os";
 
 export default class CreateUserProfileApiFactory {
     public static create() {

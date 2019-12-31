@@ -35,8 +35,8 @@ export default class AskScreen extends React.Component <Props, State> {
     private handleSubmit = () => {
         if (this.state.postContent === "" )  {
             alert('コンテンツがありません');
-
         } else {
+            // これをAPI化する
             const db = firebase.firestore()
             db.collection('posts').add({
                 content: this.state.postContent,
