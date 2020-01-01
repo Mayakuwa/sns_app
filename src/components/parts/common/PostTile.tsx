@@ -44,11 +44,8 @@ export default class PostTile extends React.Component <Props, State> {
                    <LikeButton
                    onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
                        this.setState({isLiked: false})}
-                   isLiked={this.state.isLiked}
-               />
-                   <EditDeleteButton
-                       onPress={() => console.warn('delete!!')}
-                   />
+                   isLiked={this.state.isLiked}/>
+                   <EditDeleteButton/>
                </View>
                {console.warn(this.state.isLiked)}
            </Card>
