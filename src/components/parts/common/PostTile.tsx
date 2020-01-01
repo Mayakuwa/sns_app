@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Card} from "react-native-elements";
-import {Text, StyleSheet} from "react-native";
+import {Text, StyleSheet, View} from "react-native";
 import LikeButton from "./LikeButton";
 import EditDeleteButton from "./EditDeleteButton"
 
@@ -17,7 +17,11 @@ type State = {
 
 const styles = StyleSheet.create({
     dot: {
-        textAlign: 'right'
+        justifyContent: 'flex-end'
+    },
+    element: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 })
 
@@ -36,15 +40,16 @@ export default class PostTile extends React.Component <Props, State> {
                <Text>{this.props.content}</Text>
                <Text>{this.props.time}</Text>
                {/* おそらくこの書き方がよくない*/}
-               <LikeButton
-                   onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) : this.setState({isLiked: false})}
+               <View style={styles.element}>
+                   <LikeButton
+                   onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
+                       this.setState({isLiked: false})}
                    isLiked={this.state.isLiked}
                />
-               <EditDeleteButton
-                   onPress={() => console.warn('delete!!')}
-                   style={styles.dot}
-               />
-
+                   <EditDeleteButton
+                       onPress={() => console.warn('delete!!')}
+                   />
+               </View>
                {console.warn(this.state.isLiked)}
            </Card>
         )
