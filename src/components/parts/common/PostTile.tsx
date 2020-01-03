@@ -5,10 +5,10 @@ import LikeButton from "./LikeButton";
 import EditDeleteButton from "./EditDeleteButton"
 
 
-
 type Props = {
-    content: null | string
-    time: string
+    name: string
+    content: string
+    time: number
 }
 
 type State = {
@@ -37,7 +37,8 @@ export default class PostTile extends React.Component <Props, State> {
     render() {
         return(
            <Card>
-               <Text>{this.props.content}</Text>
+               <Text>{this.props.name}</Text>
+               <Text numberOfLines={4}>{this.props.content}</Text>
                <Text>{this.props.time}</Text>
                {/* おそらくこの書き方がよくない*/}
                <View style={styles.element}>

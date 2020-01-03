@@ -5,8 +5,11 @@ import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
 import Color from "../../common/Color";
+import Post from "../../common/model/post/Post"
 import DeletePostApiFactory from "../../api/post/DeletePostApi"
 import Storage from "../../api/Storage"
+import GetUserProfileApiFactory from "../../api/user/GetUserProfileApi";
+import User from "../../common/model/user/User"
 
 const style = StyleSheet.create({
     container: {
@@ -33,9 +36,10 @@ type Props = {
     navigation: NavigationScreenProp<{}>;
 }
 
-type State = {
+interface State {
     //ここも直す、配列で入れられるようにする
-    postList: []
+    postList: Post[]
+    user: User
 }
 
 
@@ -45,11 +49,21 @@ export default class TimelineScreen extends React.Component <Props, State> {
         super(props);
         this.state = {
            postList: [],
+           user: null
         }
     }
 
 
      public componentDidMount () {
+             const storage = new Storage()
+             storage.load(Storage.KEY_USER_ID)
+                 .then((id) => {
+                     GetUserProfileApiFactory.create().execute(id)
+                         .then((user) => {
+                             this.setState({user: user})
+                         })
+                 })
+
         this.props.navigation.setParams({
             goToAskScreen: this.goToAskScreen.bind(this)
         })
@@ -73,7 +87,8 @@ export default class TimelineScreen extends React.Component <Props, State> {
 
     public goToAskScreen = () => {
         this.props.navigation.navigate('Ask' ,{
-            refresh: this.componentDidMount.bind(this)
+            refresh: this.componentDidMount.bind(this),
+            user: this.state.user
         });
     }
 
@@ -82,6 +97,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
         const hoge = this.state.postList.map((post) => {
                 return <TouchableHighlight>
                         <PostTile
+                            name={post.username}
                             content={post.content}
                             time={post.createdAt}
                         />

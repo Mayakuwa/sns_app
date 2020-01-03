@@ -4,8 +4,7 @@ import PostTile from "../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 import Color from "../common/Color";
-import Storage from "../api/Storage";
-import GetUserProfileApiFactory from "../api/user/GetUserProfileApi";
+import User from "../common/model/user/User"
 require('firebase/firestore')
 
 
@@ -21,26 +20,21 @@ type Props = {
 
 type State = {
     postContent: string
-    userId: string
+    userId: string,
+    username: string
 }
 
 
 export default class AskScreen extends React.Component <Props, State> {
 
-    public constructor(props) {
-        super(props);
+    public constructor(props, state) {
+        super(props, state);
+        const user:User = this.props.navigation.state.params.user;
         this.state = {
             postContent: "",
-            userId: null
+            userId: user.authId,
+            username: user.name
         }
-    }
-
-    public componentDidMount() {
-        const storage = new Storage()
-        storage.load(Storage.KEY_USER_ID)
-            .then((id) => {
-                this.setState({userId: id})
-            })
     }
 
 
@@ -53,6 +47,7 @@ export default class AskScreen extends React.Component <Props, State> {
             db.collection('posts').add({
                 content: this.state.postContent,
                 createdAt: new Date().toLocaleString("ja"),
+                username: this.state.username,
                 userId: this.state.userId
             })
                 .then(() => {
