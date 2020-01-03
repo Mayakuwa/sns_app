@@ -8,7 +8,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from "react-navigation";
 import * as firebase from "firebase";
 import ENV from "./env.json";
-
+import Storage from "./src/api/Storage";
 
 
 require("firebase/firestore");
@@ -43,7 +43,7 @@ const IntroductionStack = createStackNavigator({
     }
   },
     {
-      initialRouteName: 'Top'}
+      initialRouteName: ''}
 
 )
 
@@ -58,11 +58,38 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends React.Component {
-  public render() {
-    return (
-        <IntroductionContainer/>
-    )
+type State = {
+    userId: string | null
+}
+
+export default class App extends React.Component<State> {
+
+    public constructor(props, state) {
+        super(props, state);
+        this.state = {
+            userId: ''
+        }
+    }
+
+    public componentDidMount() {
+        /*
+        ユーザーを取得して取れなかったらuserIdをnullのまま
+         */
+        const storage = new Storage()
+        storage.load(Storage.KEY_USER_ID)
+            .then(id => {
+                this.setState({userId: id})
+            })
+            .catch((error) => {
+                return error
+            })
+    }
+
+    public render() {
+        return this.state.userId ?
+            <TopScreen/> :
+            <IntroductionContainer/>;
+
   }
 }
 

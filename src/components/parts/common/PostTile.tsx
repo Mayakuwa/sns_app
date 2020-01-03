@@ -47,7 +47,6 @@ export default class PostTile extends React.Component <Props, State> {
                    isLiked={this.state.isLiked}/>
                    <EditDeleteButton/>
                </View>
-               {console.warn(this.state.isLiked)}
            </Card>
         )
     }
