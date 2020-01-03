@@ -42,6 +42,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
 
     public constructor(props) {
         super(props);
+        // 変数定義時にインタフェース(User)を指定
         const user: User = this.props.navigation.state.params.user
         this.state = {
             postContent: "",

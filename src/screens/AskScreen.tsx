@@ -4,8 +4,9 @@ import PostTile from "../components/parts/common/PostTile";
 import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 import Color from "../common/Color";
+import Storage from "../api/Storage";
+import GetUserProfileApiFactory from "../api/user/GetUserProfileApi";
 require('firebase/firestore')
-
 
 
 const style = StyleSheet.create({
@@ -20,15 +21,26 @@ type Props = {
 
 type State = {
     postContent: string
+    userId: string
 }
+
 
 export default class AskScreen extends React.Component <Props, State> {
 
     public constructor(props) {
         super(props);
         this.state = {
-            postContent: ""
+            postContent: "",
+            userId: null
         }
+    }
+
+    public componentDidMount() {
+        const storage = new Storage()
+        storage.load(Storage.KEY_USER_ID)
+            .then((id) => {
+                this.setState({userId: id})
+            })
     }
 
 
@@ -40,7 +52,8 @@ export default class AskScreen extends React.Component <Props, State> {
             const db = firebase.firestore()
             db.collection('posts').add({
                 content: this.state.postContent,
-                createdAt: new Date().toLocaleString("ja")
+                createdAt: new Date().toLocaleString("ja"),
+                userId: this.state.userId
             })
                 .then(() => {
                     console.log('succes!')
@@ -50,7 +63,7 @@ export default class AskScreen extends React.Component <Props, State> {
                     this.props.navigation.goBack()
                 })
                 .catch((error) => {
-                    console.log('error')
+                    console.warn('error')
                 })
         }
     }

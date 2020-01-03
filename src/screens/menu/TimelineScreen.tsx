@@ -6,6 +6,7 @@ import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
 import Color from "../../common/Color";
 import DeletePostApiFactory from "../../api/post/DeletePostApi"
+import Storage from "../../api/Storage"
 
 const style = StyleSheet.create({
     container: {
