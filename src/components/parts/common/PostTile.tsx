@@ -1,14 +1,14 @@
 import * as React from "react";
 import {Card} from "react-native-elements";
-import {Text, StyleSheet, View} from "react-native";
+import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
 import LikeButton from "./LikeButton";
-import EditDeleteButton from "./EditDeleteButton"
 
 
 type Props = {
     name: string
     content: string
     time: number
+    onPress:(post) => void
 }
 
 type State = {
@@ -26,6 +26,8 @@ const styles = StyleSheet.create({
 })
 
 export default class PostTile extends React.Component <Props, State> {
+
+
     public constructor(props, state) {
         super(props, state);
         this.state = {
@@ -36,19 +38,20 @@ export default class PostTile extends React.Component <Props, State> {
 
     render() {
         return(
-           <Card>
-               <Text>{this.props.name}</Text>
-               <Text numberOfLines={4}>{this.props.content}</Text>
-               <Text>{this.props.time}</Text>
-               {/* おそらくこの書き方がよくない*/}
-               <View style={styles.element}>
-                   <LikeButton
-                   onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
-                       this.setState({isLiked: false})}
-                   isLiked={this.state.isLiked}/>
-                   <EditDeleteButton/>
-               </View>
-           </Card>
+            <TouchableOpacity onPress={this.props.onPress}>
+               <Card>
+                <Text>{this.props.name}</Text>
+                <Text numberOfLines={4}>{this.props.content}</Text>
+                <Text>{this.props.time}</Text>
+                {/* おそらくこの書き方がよくない*/}
+                <View style={styles.element}>
+                    <LikeButton
+                        onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
+                            this.setState({isLiked: false})}
+                        isLiked={this.state.isLiked}/>
+                </View>
+            </Card>
+            </TouchableOpacity>
         )
     }
 }

@@ -6,10 +6,10 @@ import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
 import Color from "../../common/Color";
 import Post from "../../common/model/post/Post"
-import DeletePostApiFactory from "../../api/post/DeletePostApi"
 import Storage from "../../api/Storage"
 import GetUserProfileApiFactory from "../../api/user/GetUserProfileApi";
 import User from "../../common/model/user/User"
+import DeletePostApiFactory from "../../api/post/DeletePostApi";
 
 const style = StyleSheet.create({
     container: {
@@ -74,6 +74,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
             .then(snapShot => {
             let posts = []
             snapShot.forEach((doc) => {
+                console.warn(doc.data())
                 posts.push(doc.data())
             });
             this.setState({postList: posts})
@@ -100,6 +101,9 @@ export default class TimelineScreen extends React.Component <Props, State> {
                             name={post.username}
                             content={post.content}
                             time={post.createdAt}
+                            onPress={(post) => this.props.navigation.navigate('Post', {
+                                post: post.id
+                            })}
                         />
                        </TouchableHighlight>
         })

@@ -11,7 +11,11 @@ const DELETE = 0;
 const CANCEl = 1;
 
 
-export default class EditDeleteButton extends React.Component {
+type Props = {
+    onDelete: () => void
+}
+
+export default class EditDeleteButton extends React.Component <Props> {
 
     private onPress = () => {
         ActionSheet.show({
@@ -28,14 +32,13 @@ export default class EditDeleteButton extends React.Component {
                     '本当に削除しますか？',
                     '',
                     [
-                        {text: 'OK', onPress: () => console.warn('ok')},
-                        {text: 'キャンセル', onPress: () => console.warn('cancel')}
+                        {text: 'OK', onPress: () => this.props.onDelete()},
+                        {text: 'キャンセル', onPress: () => {return null}}
                         ]
                 );
                 return;
             case CANCEl:
-                console.warn('cancel')
-                return;
+                return null;
             default: return;
         }
     };

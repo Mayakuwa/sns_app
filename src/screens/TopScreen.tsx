@@ -10,6 +10,7 @@ import ProfileEditScreen from "./menu/ProfileEditScreen";
 import AskScreen from "./AskScreen";
 import LikeScreen from "./menu/LikeScreen";
 import Color from "../common/Color";
+import PostScreen from "./PostScreen";
 
 
 const styles = StyleSheet.create({
@@ -139,7 +140,9 @@ export default class TopScreen extends React.Component {
                    //         onPress={() => console.log("hi")}
                    //     />
                }
-
+           },
+           Post: {
+                screen:　PostScreen
            }
         }, {
            initialRouteName: 'Main'
