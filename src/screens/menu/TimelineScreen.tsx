@@ -5,11 +5,13 @@ import * as firebase from "firebase";
 import { NavigationScreenProp} from "react-navigation"
 require('firebase/firestore');
 import Color from "../../common/Color";
-import Post from "../../common/model/post/Post"
+import Post, {PostData} from "../../common/model/post/Post"
 import Storage from "../../api/Storage"
 import GetUserProfileApiFactory from "../../api/user/GetUserProfileApi";
-import User from "../../common/model/user/User"
-import DeletePostApiFactory from "../../api/post/DeletePostApi";
+import User from "../../common/model/user/User";
+import PostFactroy from "../../common/model/post/PostFactrory"
+
+
 
 const style = StyleSheet.create({
     container: {
@@ -68,21 +70,33 @@ export default class TimelineScreen extends React.Component <Props, State> {
             goToAskScreen: this.goToAskScreen.bind(this)
         })
 
-        firebase.firestore().collection('posts')
-            .orderBy('createdAt', "desc")
-            .get()
-            .then(snapShot => {
-            let posts = []
-            snapShot.forEach((doc) => {
-                console.warn(doc.data())
-                posts.push(doc.data())
-            });
-            this.setState({postList: posts})
-        })
-            .catch((error) =>  {
-                return error;
-            })
+         firebase.firestore().collection('posts')
+             .get()
+             .then(snapShots => {
+                 const posts:Post[] = []
+                 snapShots.forEach((snapshot) => {
+                     posts.push(PostFactroy.create(snapshot.id, snapshot.data() as PostData))
+                     this.setState({postList: posts})
+                 });
+             })
+             .catch((error) =>  {
+                 return error;
+             })
 
+        // firebase.firestore().collection('posts')
+        //     .orderBy('createdAt', "desc")
+        //     .get()
+        //     .then((doc) => {
+        //         console.log(doc.docs)
+        //     let posts = []
+        //     doc.forEach((doc) => {
+        //         posts.push(doc.data())
+        //         this.setState({postList: posts})
+        //     });
+        // })
+        //     .catch((error) =>  {
+        //         return error;
+        //     })
 
     }
 
@@ -100,10 +114,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                         <PostTile
                             name={post.username}
                             content={post.content}
-                            time={post.createdAt}
-                            onPress={(post) => this.props.navigation.navigate('Post', {
-                                post: post.id
-                            })}
+                            onPress={() => console.warn(post.id)}
                         />
                        </TouchableHighlight>
         })

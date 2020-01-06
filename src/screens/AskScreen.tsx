@@ -6,6 +6,8 @@ import { NavigationScreenProp} from "react-navigation"
 import Color from "../common/Color";
 import User from "../common/model/user/User"
 require('firebase/firestore')
+import CreatePostApiFactory from "../api/post/CreatePostApi";
+
 
 
 const style = StyleSheet.create({
@@ -39,27 +41,40 @@ export default class AskScreen extends React.Component <Props, State> {
 
 
     private handleSubmit = () => {
-        if (this.state.postContent === "" )  {
+
+        const {postContent, userId, username} = this.state
+
+        if (postContent === "" )  {
             alert('コンテンツがありません');
         } else {
             // これをAPI化する
-            const db = firebase.firestore()
-            db.collection('posts').add({
-                content: this.state.postContent,
-                createdAt: new Date().toLocaleString("ja"),
-                username: this.state.username,
-                userId: this.state.userId
-            })
+            CreatePostApiFactory.create().execute(postContent, username, userId)
                 .then(() => {
-                    console.log('succes!')
-                    console.log(this.props.navigation.state.params.refresh());
-                    // 好きな場所でこれを呼び出すと親画面の更新が行われる。
+                            // 好きな場所でこれを呼び出すと親画面の更新が行われる。
                     this.props.navigation.state.params.refresh();
                     this.props.navigation.goBack()
                 })
                 .catch((error) => {
-                    console.warn('error')
+                    console.warn(error)
                 })
+
+            // const db = firebase.firestore()
+            // db.collection('posts').add({
+            //     content: this.state.postContent,
+            //     createdAt: new Date().toLocaleString("ja"),
+            //     username: this.state.username,
+            //     userId: this.state.userId
+            // })
+            //     .then(() => {
+            //         console.log('succes!')
+            //         console.log(this.props.navigation.state.params.refresh());
+            //         // 好きな場所でこれを呼び出すと親画面の更新が行われる。
+            //         this.props.navigation.state.params.refresh();
+            //         this.props.navigation.goBack()
+            //     })
+            //     .catch((error) => {
+            //         console.warn('error')
+            //     })
         }
     }
 

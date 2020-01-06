@@ -11,7 +11,7 @@ class DeletePostApi {
         Firebase.getInstance().load('post')
             .doc(postId)
             .delete()
-            .then(snapShot =>{
+            .then(snapShot => {
                 console.warn('delete' +  snapShot)
             })
             .catch(error => {

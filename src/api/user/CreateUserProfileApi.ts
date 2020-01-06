@@ -24,7 +24,7 @@ export class CreateUserProfileApi {
                        return true;
                        })
                    .catch((error) => {
-                       console.warn(error);
+                       return error;
                    })
            })
    }

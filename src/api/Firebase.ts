@@ -27,6 +27,10 @@ export default class Firebase {
         return this.db.collection(table);
     }
 
+    public saveData(collection: string, data: firebase.firestore.DocumentData) {
+        return this.db.collection(collection).add(data)
+    }
+
     public static saveImage(filename: string, blob: Blob | Uint8Array | ArrayBuffer) {
         return firebase.storage().ref().child('images/' + filename).getDownloadURL();
     }
@@ -34,5 +38,7 @@ export default class Firebase {
     public static createAnonimousUser() {
         return firebase.auth().signInAnonymously()
     }
+
+
 
 }

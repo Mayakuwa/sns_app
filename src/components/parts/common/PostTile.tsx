@@ -2,12 +2,14 @@ import * as React from "react";
 import {Card} from "react-native-elements";
 import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
 import LikeButton from "./LikeButton";
+import Post from "../../../common/model/post/Post"
 
 
 type Props = {
+    post: Post,
     name: string
     content: string
-    time: number
+    time?: any
     onPress:(post) => void
 }
 
