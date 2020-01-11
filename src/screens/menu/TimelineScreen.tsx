@@ -114,7 +114,8 @@ export default class TimelineScreen extends React.Component <Props, State> {
                         <PostTile
                             name={post.username}
                             content={post.content}
-                            onPress={() => console.warn(post.id)}
+                            time={post.createdAt}
+                            onPress={() => console.warn(post)}
                         />
                        </TouchableHighlight>
         })

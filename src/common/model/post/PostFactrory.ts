@@ -7,7 +7,7 @@ export default class PostFactrory {
             data.content,
             data.userId,
             data.username,
-            new Date(data.createdAt * 1000)
+            data.createdAt
         )
     }
 }

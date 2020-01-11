@@ -9,7 +9,7 @@ type Props = {
     post: Post,
     name: string
     content: string
-    time?: any
+    time?: string
     onPress:(post) => void
 }
 
