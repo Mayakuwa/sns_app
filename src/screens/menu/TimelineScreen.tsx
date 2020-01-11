@@ -115,7 +115,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                             name={post.username}
                             content={post.content}
                             time={post.createdAt}
-                            onPress={() => console.warn(post)}
+                            onPress={() => this.props.navigation.navigate('Post')}
                         />
                        </TouchableHighlight>
         })
