@@ -7,7 +7,8 @@ export default class PostFactrory {
             data.content,
             data.userId,
             data.username,
-            data.createdAt
+            data.createdAt,
+            data.userImage
         )
     }
 }

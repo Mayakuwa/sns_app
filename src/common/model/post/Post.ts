@@ -3,6 +3,7 @@ export type PostData = {
     userId: string,
     username: string,
     createdAt: string
+    userImage: string
 }
 
 export default class Post {
@@ -11,7 +12,8 @@ export default class Post {
         public readonly content: string,
         public readonly userId: string,
         public readonly username: string,
-        public readonly createdAt: string
+        public readonly createdAt: string,
+        public readonly userImage: string
     ) {}
 }
 
