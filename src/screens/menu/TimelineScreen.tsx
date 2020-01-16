@@ -66,7 +66,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                              this.setState({user: user})
                          })
                          .catch((error) => {
-                             console.warn(error)
+                            return error
                          })
                  })
 

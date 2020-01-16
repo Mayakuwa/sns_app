@@ -13,7 +13,7 @@ export default class Post {
         public readonly userId: string,
         public readonly username: string,
         public readonly createdAt: string,
-        public readonly userImage: string
+        public  userImage: string
     ) {}
 }
 
