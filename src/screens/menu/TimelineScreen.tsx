@@ -127,7 +127,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                     <TouchableHighlight
                         style={style.button}
                         onPress={() =>this.props.navigation.state.params.goToAskScreen()}>
-                        <Text style={style.text}>+</Text>
+                        <Text style={style.text}> + </Text>
                     </TouchableHighlight>
                 </View>
             </View>
