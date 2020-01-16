@@ -10,6 +10,7 @@ import Storage from "../../api/Storage"
 import GetUserProfileApiFactory from "../../api/user/GetUserProfileApi";
 import User from "../../common/model/user/User";
 import PostFactroy from "../../common/model/post/PostFactrory"
+import GetAllPostApiFactory from "../../api/post/GetAllPostApi";
 
 
 
@@ -64,39 +65,19 @@ export default class TimelineScreen extends React.Component <Props, State> {
                          .then((user) => {
                              this.setState({user: user})
                          })
+                         .catch((error) => {
+                             console.warn(error)
+                         })
                  })
 
         this.props.navigation.setParams({
             goToAskScreen: this.goToAskScreen.bind(this)
         })
 
-         firebase.firestore().collection('posts')
-             .get()
-             .then(snapShots => {
-                 const posts:Post[] = []
-                 snapShots.forEach((snapshot) => {
-                     posts.push(PostFactroy.create(snapshot.id, snapshot.data() as PostData))
-                     this.setState({postList: posts})
-                 });
-             })
-             .catch((error) =>  {
-                 return error;
-             })
-
-        // firebase.firestore().collection('posts')
-        //     .orderBy('createdAt', "desc")
-        //     .get()
-        //     .then((doc) => {
-        //         console.log(doc.docs)
-        //     let posts = []
-        //     doc.forEach((doc) => {
-        //         posts.push(doc.data())
-        //         this.setState({postList: posts})
-        //     });
-        // })
-        //     .catch((error) =>  {
-        //         return error;
-        //     })
+         GetAllPostApiFactory.create().execute()
+                      .then((posts) => {
+                        this.setState({postList: posts})
+                      })
 
     }
 
@@ -108,7 +89,10 @@ export default class TimelineScreen extends React.Component <Props, State> {
     }
 
 
+
     public render() {
+        const {user} = this.state
+
         const hoge = this.state.postList.map((post) => {
                 return <TouchableHighlight>
                         <PostTile

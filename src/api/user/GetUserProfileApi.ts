@@ -4,11 +4,11 @@ import Firebase from "../Firebase"
 
 export default class GetUserProfileApiFactory {
     public static create() {
-        return new GetUserProfile();
+        return new GetUserProfileApi();
     }
 }
 
-export class GetUserProfile {
+export class GetUserProfileApi {
     public execute(id: string) {
         return Firebase.getInstance().load('users')
             .doc(id)

@@ -2,7 +2,9 @@ import * as React from "react";
 import {Card} from "react-native-elements";
 import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
 import LikeButton from "./LikeButton";
-import Post from "../../../common/model/post/Post"
+import Post from "../../../common/model/post/Post";
+import EditDeleteButton from "./EditDeleteButton";
+import {Thumbnail} from "native-base";
 
 
 type Props = {
@@ -11,6 +13,7 @@ type Props = {
     content: string
     time?: string
     onPress:(post) => void
+    userImage: string
 }
 
 type State = {
@@ -43,6 +46,7 @@ export default class PostTile extends React.Component <Props, State> {
             <TouchableOpacity onPress={this.props.onPress}>
                <Card>
                 <Text>{this.props.name}</Text>
+                <Thumbnail source={{uri: this.props.userImage}}/>
                 <Text numberOfLines={4}>{this.props.content}</Text>
                 <Text>{this.props.time}</Text>
                 {/* おそらくこの書き方がよくない*/}
@@ -51,6 +55,7 @@ export default class PostTile extends React.Component <Props, State> {
                         onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
                             this.setState({isLiked: false})}
                         isLiked={this.state.isLiked}/>
+                        <EditDeleteButton onDelete={() => alert('good time!')}/>
                 </View>
             </Card>
             </TouchableOpacity>
