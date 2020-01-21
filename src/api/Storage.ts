@@ -1,16 +1,18 @@
 import NativeStorage from 'react-native-storage';
 import {AsyncStorage} from 'react-native';
 
+
 export default class Storage {
 
-    //定数を設定
+    //定数を設定（自分のユーザーID）
     static readonly KEY_USER_ID = 'userId';
 
-    storage: NativeStorage;
+    private storage: NativeStorage;
+
+    private static instance: Storage;
 
     public constructor() {
         this.storage = new NativeStorage({
-            // 最大容量, 1000がデフォルト
             size: 1000,
             // AsyncStorageを使う（WEBでもRNでも）
             // セットしないとリロードでデータが消えるよ。
@@ -18,21 +20,36 @@ export default class Storage {
             // 期限なしにキャッシュする
             defaultExpires: null,
             // メモリーにもキャッシュする
-            enableCache: true
-        })
+            enableCache: true,
+
+        });
+    }
+
+    // インスタンス獲得
+    public static getInstance(): Storage {
+        if (!this.instance) {
+            this.instance = new Storage();
+        }
+        return this.instance;
     }
 
 
-    public save(key: string, value) {
+    public save(key: string, value, expires: null) {
         return this.storage.save(
             {key: key,
-                     data: value
+                     data: value,
+                     expires: expires
+            })
+            .catch(error => {
+                throw error
             })
     }
 
     public load(key: string) {
         return this.storage.load({
-            key: key
+            key: key,
+            autoSync: true,
+            syncInBackground: true,
         })
     }
 

@@ -46,25 +46,30 @@ export default class LoginScreen extends React.Component <Props, State> {
 
 
     public onHandlePress = () => {
-        firebase.auth().signInAnonymously()
-            .then((user) => {
-                console.log("succes!");
-                console.log(user);
-                //　topに遷移後に、履歴を削除し、gobackボタンなくす
-                const resetAction =　StackActions.reset({
-                    index: 0,
-                    actions: [NavigationActions.navigate({routeName: 'Top'})],
+        if (this.state.password === null  && this.state.password === null) {
+            alert('空です')
+        } else {
+            firebase.auth().signInAnonymously()
+                .then((user) => {
+                    console.log("succes!");
+                    console.log(user);
+                    //　topに遷移後に、履歴を削除し、gobackボタンなくす
+                    const resetAction =　StackActions.reset({
+                        index: 0,
+                        actions: [NavigationActions.navigate({routeName: 'Top'})],
+                    })
+                    this.props.navigation.dispatch(resetAction);
+
+
+                    // this.props.navigation.navigate('Top', {
+                    //    user: user
+                    // })
                 })
-                this.props.navigation.dispatch(resetAction);
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
 
-
-                // this.props.navigation.navigate('Top', {
-                //    user: user
-                // })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
     }
 
     public render() {

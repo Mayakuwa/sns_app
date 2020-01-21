@@ -13,7 +13,8 @@ type Props = {
     content: string
     time?: string
     onPress:(post) => void
-    userImage: string
+    userImage: string,
+    delete:() => void
 }
 
 type State = {
@@ -55,7 +56,7 @@ export default class PostTile extends React.Component <Props, State> {
                         onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
                             this.setState({isLiked: false})}
                         isLiked={this.state.isLiked}/>
-                        <EditDeleteButton onDelete={() => alert('good time!')}/>
+                        <EditDeleteButton onDelete={() => this.props.delete()}/>
                 </View>
             </Card>
             </TouchableOpacity>

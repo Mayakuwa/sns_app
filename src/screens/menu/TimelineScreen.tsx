@@ -58,9 +58,9 @@ export default class TimelineScreen extends React.Component <Props, State> {
 
 
      public componentDidMount () {
-             const storage = new Storage()
-             storage.load(Storage.KEY_USER_ID)
+             Storage.getInstance().load(Storage.KEY_USER_ID)
                  .then((id) => {
+                     console.warn(id)
                      GetUserProfileApiFactory.create().execute(id)
                          .then((user) => {
                              this.setState({user: user})
@@ -88,7 +88,17 @@ export default class TimelineScreen extends React.Component <Props, State> {
         });
     }
 
-
+    public onDelete = (id: string) => {
+        firebase.firestore().collection('posts')
+            .doc(id)
+            .delete()
+            .then(() => {
+                console.warn('delete')
+            })
+            .catch((e) => {
+                throw e;
+            })
+    }
 
     public render() {
         const {user} = this.state
@@ -96,6 +106,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
         const hoge = this.state.postList.map((post) => {
                 return <TouchableHighlight>
                         <PostTile
+                            delete={() => this.onDelete(post.id)}
                             name={post.username}
                             content={post.content}
                             time={post.createdAt}

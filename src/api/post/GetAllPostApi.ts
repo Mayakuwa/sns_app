@@ -32,6 +32,7 @@ export class GetAllPostApi {
                         posts.map(post => {
                             users.map(user => {
                                 post.userImage = user.image
+                                // post.userId = user.authId
                             })
                         })
                         console.warn(posts)
