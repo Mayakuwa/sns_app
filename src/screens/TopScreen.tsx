@@ -4,6 +4,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from "react-navigation";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import MypageScreen from "./menu/MypageScreen";
 import TimelineScreen from "./menu/TimelineScreen";
 import ProfileEditScreen from "./menu/ProfileEditScreen";
@@ -11,6 +12,7 @@ import AskScreen from "./AskScreen";
 import LikeScreen from "./menu/LikeScreen";
 import Color from "../common/Color";
 import PostScreen from "./PostScreen";
+import ArticleScree from "./menu/ArticleScreen";
 
 
 const styles = StyleSheet.create({
@@ -57,6 +59,19 @@ export default class TopScreen extends React.Component {
                             <Icon
                                 size={25}
                                 name={'heart'}
+                                style={{color: tintColor}}/>
+                        )
+                    }
+                },
+                Article: {
+                    screen: ArticleScree,
+                    navigationOptions: {
+                        tabBarLabel: '記事',
+                        tabBarColor: Color.navy,
+                        tabBarIcon: ({tintColor, focused}) => (
+                            <Entypo
+                                size={20}
+                                name={'news'}
                                 style={{color: tintColor}}/>
                         )
                     }
