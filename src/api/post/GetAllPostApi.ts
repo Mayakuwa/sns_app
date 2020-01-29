@@ -35,7 +35,6 @@ export class GetAllPostApi {
                                 // post.userId = user.authId
                             })
                         })
-                        console.warn(posts)
                     })
                 return posts;
             })

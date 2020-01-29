@@ -166,7 +166,7 @@ export default class ProfileEditScreen extends React.Component <Props, State> {
                 return true
             })
             .catch((error) => {
-                console.warn(error)
+               return error;
             })
     }
 

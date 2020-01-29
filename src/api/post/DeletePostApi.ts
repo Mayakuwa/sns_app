@@ -15,7 +15,7 @@ class DeletePostApi {
                 console.warn('delete' +  snapShot)
             })
             .catch(error => {
-                console.warn(error);
+                return error;
             })
     }
 }

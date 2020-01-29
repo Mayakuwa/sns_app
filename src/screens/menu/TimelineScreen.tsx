@@ -60,7 +60,6 @@ export default class TimelineScreen extends React.Component <Props, State> {
      public componentDidMount () {
              Storage.getInstance().load(Storage.KEY_USER_ID)
                  .then((id) => {
-                     console.warn(id)
                      GetUserProfileApiFactory.create().execute(id)
                          .then((user) => {
                              this.setState({user: user})
@@ -93,7 +92,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
             .doc(id)
             .delete()
             .then(() => {
-                console.warn('delete')
+                console.log('delete')
             })
             .catch((e) => {
                 throw e;

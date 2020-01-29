@@ -55,7 +55,7 @@ export default class AskScreen extends React.Component <Props, State> {
                     this.props.navigation.goBack()
                 })
                 .catch((error) => {
-                    console.warn(error)
+                    return error
                 })
 
             // const db = firebase.firestore()
