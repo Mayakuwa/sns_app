@@ -33,36 +33,23 @@ export default class ArticleScreen extends React.Component <State, Props> {
             .then((response) => response.text())
             .then((responseData) => rssParser.parse(responseData))
             .then((rss)=> {
-                console.warn(rss)
+                // rss.items[0].links[0].urlでurlが取れる
                this.setState({items: rss.items})
             })
     }
 
 
     private onWebView = (url) => {
-        this.state.navigation.navigate('SettingDetailWebView', {
+        this.props.navigation.navigate('SettingDetailWebView', {
             url: url
         })
     }
 
-    // private fetch = () => {
-    //     fetch("https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?q=%25E6%25B5%25B7%25E5%25A4%2596%25E6%2597%2585%25E8%25A1%258C", {
-    //         "method": "GET",
-    //         "headers": {
-    //             "x-rapidapi-host": "microsoft-azure-bing-news-search-v1.p.rapidapi.com",
-    //             "x-rapidapi-key": "48ad87710fmsh930fac3c8021acep19e621jsned186a5c9f5e"
-    //         }
-    //     })
-    //         .then(response => {
-    //             console.log(response);
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // }
+
     public render() {
        const articles = this.state.items.map(item =>(
            <ListItem onPress={() => this.onWebView(item.links[0].url)}>
+               {console.warn(item.links[0].url)}
                <Left>
                    <Thumbnail square source={{ uri: 'https://www.joint-kaigo.com/1/_src/58756/img20191207081956811162.jpg?v=1575675517779' }} />
                </Left>

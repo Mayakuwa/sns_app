@@ -13,6 +13,7 @@ import LikeScreen from "./menu/LikeScreen";
 import Color from "../common/Color";
 import PostScreen from "./PostScreen";
 import ArticleScree from "./menu/ArticleScreen";
+import SettingDetailWebViewScreen from "./menu/SettingDetailWebView";
 
 
 const styles = StyleSheet.create({
@@ -27,8 +28,6 @@ const styles = StyleSheet.create({
 ボトムメニューは、createMaterialBottomTabNavigatorを作って、そのあと
  createAppContainerで読み込ませて、それをrenderさせている
  **/
-
-
 
 
 export default class TopScreen extends React.Component {
@@ -158,6 +157,9 @@ export default class TopScreen extends React.Component {
            },
            Post: {
                 screen:　PostScreen
+           },
+           SettingDetailWebView: {
+                screen: SettingDetailWebViewScreen
            }
         }, {
            initialRouteName: 'Main'
