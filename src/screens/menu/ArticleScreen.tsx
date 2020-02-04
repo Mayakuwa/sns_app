@@ -95,7 +95,8 @@ export default class ArticleScreen extends React.Component <State, Props> {
                    <Thumbnail square source={{ uri: item.image.thumbnail.contentUrl}} />
                </Left>
                <Body>
-                   <Text numberOfLines={2}>{item.name}</Text>
+                   <Text numberOfLines={2} style={{fontSize: 15, fontWeight: 'bold'}}>{item.name}</Text>
+                   <Text numberOfLines={2}>{item.description}</Text>
                </Body>
                <Right>
                    <Button transparent>
