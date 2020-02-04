@@ -39,18 +39,21 @@ export default class ArticleScreen extends React.Component <State, Props> {
     // }
 
     private fetch = () => {
-        fetch("https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?count=3&offset=0&mkt=ja-jp&safeSearch=Off&q=%E4%BB%8B%E8%AD%B7", {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "microsoft-azure-bing-news-search-v1.p.rapidapi.com",
-                "x-rapidapi-key": "9ae8c0af1cmshcb1d0c2d49c5985p1bc3bbjsnfaf1242e8cee",
+        fetch("https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?count=5&q=travel", {
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "microsoft-azure-bing-news-search-v1.p.rapidapi.com",
+                    "x-rapidapi-key": "48ad87710fmsh930fac3c8021acep19e621jsned186a5c9f5e"
+                }
             }
-        })
+        )
             .then(response => {
                 return response.json()
             })
             .then((data) => {
-                console.warn(data.value)
+                this.setState({items: data.value});
+                console.warn(this.state.items)
+
             })
             .catch(err => {
                 console.log(err);
@@ -76,6 +79,8 @@ export default class ArticleScreen extends React.Component <State, Props> {
 
 
 
+
+
     private onWebView = (url) => {
         this.props.navigation.navigate('SettingDetailWebView', {
             url: url
@@ -85,9 +90,9 @@ export default class ArticleScreen extends React.Component <State, Props> {
 
     public render() {
        const articles = this.state.items.map(item =>(
-           <ListItem onPress={() => this.onWebView(item.links[0].url)}>
+           <ListItem onPress={() => this.onWebView(item.url)}>
                <Left>
-                   <Thumbnail square source={{ uri: 'https://www.joint-kaigo.com/1/_src/58756/img20191207081956811162.jpg?v=1575675517779' }} />
+                   <Thumbnail square source={{ uri: item.image.thumbnail.contentUrl}} />
                </Left>
                <Body>
                    <Text numberOfLines={2}>{item.name}</Text>
