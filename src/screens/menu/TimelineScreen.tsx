@@ -87,6 +87,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
         });
     }
 
+    // これもAPI化する
     public onDelete = (id: string) => {
         firebase.firestore().collection('posts')
             .doc(id)

@@ -2,8 +2,8 @@ import * as React from 'react';
 import {View, Text} from "react-native"
 import {WebView} from "react-native-webview";
 import {NavigationScreenProp} from "react-navigation";
-import * as rssParser from 'react-native-rss-parser';
-import {ListItem, List, Content, Left, Right, Thumbnail, Body, Button} from "native-base";
+import {ListItem, Left, Right, Thumbnail, Body, Button} from "native-base";
+import Firebase from "../../api/Firebase"
 
 
 type State = {
@@ -28,15 +28,7 @@ export default class ArticleScreen extends React.Component <State, Props> {
         return this.fetch()
     }
 
-    // private fetch = () => {
-    //     return fetch("https://jp.techcrunch.com/feed/")
-    //         .then((response) => response.text())
-    //         .then((responseData) => rssParser.parse(responseData))
-    //         .then((rss)=> {
-    //             // rss.items[0].links[0].urlでurlが取れる
-    //            this.setState({items: rss.items})
-    //         })
-    // }
+
 
     private fetch = () => {
         fetch("https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?count=5&q=travel", {
@@ -51,34 +43,32 @@ export default class ArticleScreen extends React.Component <State, Props> {
                 return response.json()
             })
             .then((data) => {
-                this.setState({items: data.value});
-                console.warn(this.state.items)
+               data.value.map(article => {
+                 return this.addFirebase(article)
+               })
+                // this.setState({items: data.value});
 
             })
             .catch(err => {
                 console.log(err);
             });
-        // return fetch("https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?count=5&q=%25E4%25BB%258B%25E8%25AD%25B7", {
-        //     "method": "GET",
-        //     "headers": {
-        //         "x-rapidapi-host": "microsoft-azure-bing-news-search-v1.p.rapidapi.com",
-        //         "x-rapidapi-key": "48ad87710fmsh930fac3c8021acep19e621jsned186a5c9f5e"
-        //     }
-        // })
-        //     .then(response => {
-        //         console.warn(response);
-        //         return response.json()
-        //     })
-        //     .then((data) => {
-        //         console.warn(data.value);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+
     }
 
 
-
+    private addFirebase = (info) => {
+        return Firebase.getInstance().saveData('articles', {
+            name: info.name,
+            content: info.description,
+            url: info.url
+        })
+            .then(result => {
+                console.warn(result)
+            })
+            .catch(error => {
+                console.warn(error)
+            })
+    }
 
 
     private onWebView = (url) => {
