@@ -3,7 +3,9 @@ import {View, Text} from "react-native"
 import {WebView} from "react-native-webview";
 import {NavigationScreenProp} from "react-navigation";
 import {ListItem, Left, Right, Thumbnail, Body, Button} from "native-base";
-import Firebase from "../../api/Firebase"
+import Firebase from "../../api/Firebase";
+import Article, {ArticleDate} from "../../common/model/article/Article"
+import ArticleFactory from "../../common/model/article/ArticleFactory"
 
 
 type State = {
@@ -43,14 +45,27 @@ export default class ArticleScreen extends React.Component <State, Props> {
                 return response.json()
             })
             .then((data) => {
-               data.value.map(article => {
-                 return this.addFirebase(article)
-               })
-                // this.setState({items: data.value});
 
+               const oldArticles = Firebase.getInstance().load('articles')
+                   .orderBy('createdAt', 'desc')
+                   .get()
+                   .then(snapshot => {
+                      return this.createOldArticle(snapshot)
+                   })
+
+               oldArticles.then(oldArticle => {
+                   oldArticle.map(value => {
+                        data.value.map(newArticle => {
+                            if (!value.name == newArticle.name)  {
+                                return this.addFirebase(newArticle)
+                            }
+                        })
+                    })
+               })
+                this.setState({items: data.value});
             })
             .catch(err => {
-                console.log(err);
+                 throw err
             });
 
     }
@@ -60,14 +75,24 @@ export default class ArticleScreen extends React.Component <State, Props> {
         return Firebase.getInstance().saveData('articles', {
             name: info.name,
             content: info.description,
-            url: info.url
+            url: info.url,
+            createdAt: new Date().toLocaleString("ja")
         })
             .then(result => {
-                console.warn(result)
+              return true
             })
             .catch(error => {
                 console.warn(error)
             })
+    }
+
+    // 古い記事を加工
+    private createOldArticle (snapshot): Article[] {
+        const article:Article[] = []
+        snapshot.forEach(row => {
+            article.push(ArticleFactory.create(row.id, row.data() as ArticleDate))
+        })
+        return article;
     }
 
 
