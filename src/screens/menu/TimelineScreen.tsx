@@ -12,7 +12,7 @@ import User from "../../common/model/user/User";
 import PostFactroy from "../../common/model/post/PostFactrory"
 import GetAllPostApiFactory from "../../api/post/GetAllPostApi";
 import { Image } from 'react-native';
-// import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Button, Icon, Left, Body, Right } from 'native-base';
 
 
 
@@ -112,6 +112,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
                             name={post.username}
                             content={post.content}
                             time={post.createdAt}
+                            userImage={post.userImage}
                             onPress={() => this.props.navigation.navigate('Post')}
                         />
                        </TouchableHighlight>
@@ -124,7 +125,7 @@ export default class TimelineScreen extends React.Component <Props, State> {
         //             <Card>
         //                 <CardItem>
         //                     <Left>
-        //                         <Thumbnail source={{uri: 'Image URL'}} />
+        //                         <Thumbnail source={{uri: post.image}} />
         //                         <Body>
         //                             <Text>NativeBase</Text>
         //                             <Text note>GeekyAnts</Text>

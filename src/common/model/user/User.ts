@@ -10,6 +10,6 @@ export default class User {
        public readonly authId: string,
        public readonly name: string,
        public readonly password: string,
-       public readonly image: string
+       public image: string
    ) {};
 }

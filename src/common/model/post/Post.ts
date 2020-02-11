@@ -10,10 +10,10 @@ export default class Post {
     public constructor(
         public readonly id: string,
         public readonly content: string,
-        public  userId: string,
+        public userId: string,
         public readonly username: string,
         public readonly createdAt: string,
-        public  userImage: string
+        public userImage: string
     ) {}
 }
 

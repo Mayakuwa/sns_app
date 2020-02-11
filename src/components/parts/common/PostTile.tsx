@@ -1,10 +1,10 @@
 import * as React from "react";
 import {Card} from "react-native-elements";
-import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
+import {Text, StyleSheet, View, TouchableOpacity, Image} from "react-native";
 import LikeButton from "./LikeButton";
 import Post from "../../../common/model/post/Post";
 import EditDeleteButton from "./EditDeleteButton";
-import {Thumbnail} from "native-base";
+import {Body, Button, CardItem, Container, Content, Header, Icon, Left, Right, Thumbnail} from "native-base";
 
 
 type Props = {
@@ -44,22 +44,38 @@ export default class PostTile extends React.Component <Props, State> {
 
     render() {
         return(
-            <TouchableOpacity onPress={this.props.onPress}>
-               <Card>
-                <Text>{this.props.name}</Text>
-                <Thumbnail source={{uri: this.props.userImage}}/>
-                <Text numberOfLines={4}>{this.props.content}</Text>
-                <Text>{this.props.time}</Text>
-                {/* おそらくこの書き方がよくない*/}
-                <View style={styles.element}>
-                    <LikeButton
-                        onPress={(isLiked) => !isLiked ? this.setState({isLiked: true}) :
-                            this.setState({isLiked: false})}
-                        isLiked={this.state.isLiked}/>
-                        <EditDeleteButton onDelete={() => this.props.delete()}/>
-                </View>
-            </Card>
-            </TouchableOpacity>
+                    <Card>
+                        <CardItem>
+                            <Left>
+                                <Thumbnail source={{uri: this.props.userImage}} />
+                                <Body>
+                                    <Text>{this.props.name}</Text>
+                                </Body>
+                            </Left>
+                        </CardItem>
+                            <Text numberOfLines={4}>{this.props.content}</Text>
+                        <CardItem>
+                            <Left>
+                                <Button transparent>
+                                    <LikeButton onPress={(isLiked) => isLiked ?
+                                        this.setState({isLiked: true}) :
+                                        this.setState({isLiked: false})}
+                                        isLiked={this.state.isLiked}
+                                    />
+                                    <Text>12 Likes</Text>
+                                </Button>
+                            </Left>
+                            <Body>
+                                <Text>{this.props.time}</Text>
+                            </Body>
+                            <Right>
+                                <Button transparent>
+                                    <EditDeleteButton onDelete={() => this.props.delete()}/>
+                                </Button>
+                            </Right>
+                        </CardItem>
+                    </Card>
+
         )
     }
 }

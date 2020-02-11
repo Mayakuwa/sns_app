@@ -20,8 +20,10 @@ export class GetAllPostApi {
                 const posts:Post[] = []
                 snapShots.forEach(snapshot => {
                    posts.push(PostFactroy.create(snapshot.id, snapshot.data() as PostData))
-
                 })
+                return posts
+            })
+            .then((posts) => {
                 const users:User[] = []
                 Firebase.getInstance().load('users')
                     .get()
@@ -29,10 +31,9 @@ export class GetAllPostApi {
                         snapShots.forEach((snapshot) => {
                             users.push(UserFactory.create(snapshot.id, snapshot.data() as UserData))
                         })
-                        posts.map(post => {
-                            users.map(user => {
+                        posts.forEach(post => {
+                            users.forEach(user => {
                                 post.userImage = user.image
-                                // post.userId = user.authId
                             })
                         })
                     })
@@ -41,5 +42,9 @@ export class GetAllPostApi {
             .catch((error) => {
                 return error
             })
+    }
+
+    private appendUserImageInfo = () => {
+    //     ここにユーザーを追加する処理を追加
     }
 }
