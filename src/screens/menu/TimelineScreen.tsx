@@ -11,6 +11,8 @@ import GetUserProfileApiFactory from "../../api/user/GetUserProfileApi";
 import User from "../../common/model/user/User";
 import PostFactroy from "../../common/model/post/PostFactrory"
 import GetAllPostApiFactory from "../../api/post/GetAllPostApi";
+import { Image } from 'react-native';
+// import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
 
 
@@ -114,6 +116,46 @@ export default class TimelineScreen extends React.Component <Props, State> {
                         />
                        </TouchableHighlight>
         })
+
+        // const exam = this.state.postList.map((post) => {
+        //     return  <Container>
+        //         <Header />
+        //         <Content>
+        //             <Card>
+        //                 <CardItem>
+        //                     <Left>
+        //                         <Thumbnail source={{uri: 'Image URL'}} />
+        //                         <Body>
+        //                             <Text>NativeBase</Text>
+        //                             <Text note>GeekyAnts</Text>
+        //                         </Body>
+        //                     </Left>
+        //                 </CardItem>
+        //                 <CardItem cardBody>
+        //                     <Image source={{uri: 'Image URL'}} style={{height: 200, width: null, flex: 1}}/>
+        //                 </CardItem>
+        //                 <CardItem>
+        //                     <Left>
+        //                         <Button transparent>
+        //                             <Icon active name="thumbs-up" />
+        //                             <Text>12 Likes</Text>
+        //                         </Button>
+        //                     </Left>
+        //                     <Body>
+        //                         <Button transparent>
+        //                             <Icon active name="chatbubbles" />
+        //                             <Text>4 Comments</Text>
+        //                         </Button>
+        //                     </Body>
+        //                     <Right>
+        //                         <Text>11h ago</Text>
+        //                     </Right>
+        //                 </CardItem>
+        //             </Card>
+        //         </Content>
+        //     </Container>
+        // })
+
 
         return(
             <View style={style.container}>
