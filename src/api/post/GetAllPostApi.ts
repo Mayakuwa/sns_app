@@ -17,34 +17,48 @@ export class GetAllPostApi {
         return Firebase.getInstance().load('posts')
             .get()
             .then(snapShots => {
-                const posts:Post[] = []
+                const posts: Post[] = []
                 snapShots.forEach(snapshot => {
-                   posts.push(PostFactroy.create(snapshot.id, snapshot.data() as PostData))
+                    posts.push(PostFactroy.create(snapshot.id, snapshot.data() as PostData))
                 })
                 return posts
             })
             .then((posts) => {
-                const users:User[] = []
-                Firebase.getInstance().load('users')
-                    .get()
-                    .then(snapShots => {
-                        snapShots.forEach((snapshot) => {
-                            users.push(UserFactory.create(snapshot.id, snapshot.data() as UserData))
-                        })
-                        posts.forEach(post => {
-                            users.forEach(user => {
-                                post.userImage = user.image
-                            })
-                        })
-                    })
-                return posts;
+                // const users: User[] = []
+                // Firebase.getInstance().load('users')
+                //     .get()
+                //     .then(snapShots => {
+                //         snapShots.forEach((snapshot) => {
+                //             users.push(UserFactory.create(snapshot.id, snapshot.data() as UserData))
+                //         })
+                //         return users
+                //     })
+                return this.appendUserImageInfo(posts)
             })
             .catch((error) => {
                 return error
             })
     }
 
-    private appendUserImageInfo = () => {
-    //     ここにユーザーを追加する処理を追加
+    // ユーザー情報をふよ
+    private appendUserImageInfo = (catchPosts) => {
+        const users: User[] = []
+        Firebase.getInstance().load('users')
+            .get()
+            .then(snapShots => {
+                snapShots.forEach((snapshot) => {
+                    users.push(UserFactory.create(snapshot.id, snapshot.data() as UserData))
+                })
+                return users
+            })
+            .then((users) => {
+                catchPosts.forEach(post => {
+                users.forEach(user => {
+                    post.userImage = user.image
+                })
+            })
+                return catchPosts
+        })
+        console.warn(catchPosts)
     }
 }
